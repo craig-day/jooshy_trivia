@@ -7,6 +7,8 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@zendeskgarden/react-buttons": "^8.28.1",
+    "@zendeskgarden/react-grid": "^8.28.1",
     "@zendeskgarden/react-theming": "^8.28.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

@@ -4,9 +4,9 @@ import Landing from './features/landing/Landing'
 import './App.css'
 
 const App = () => (
-  <ThemeProvider>
-    <Landing />
-  </ThemeProvider>
+  // <ThemeProvider>
+  <Landing />
+  // </ThemeProvider>
 )
 
 export default App
