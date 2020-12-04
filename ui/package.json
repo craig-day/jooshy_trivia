@@ -6,10 +6,25 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@zendeskgarden/react-buttons": "^8.28.1",
+    "@zendeskgarden/react-forms": "^8.28.1",
+    "@zendeskgarden/react-grid": "^8.28.1",
+    "@zendeskgarden/react-theming": "^8.28.1",
+    "@zendeskgarden/react-typography": "^8.28.1",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
+    "styled-components": "^5.2.1",
     "web-vitals": "^0.2.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -34,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.2.1"
   }
 }
