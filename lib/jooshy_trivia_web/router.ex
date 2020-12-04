@@ -7,5 +7,7 @@ defmodule JooshyTriviaWeb.Router do
 
   scope "/api", JooshyTriviaWeb do
     pipe_through :api
+
+    resources "/games", GameController, except: [:new, :edit]
   end
 end
