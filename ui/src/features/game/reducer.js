@@ -5,9 +5,9 @@ const initialState = {}
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_GAME:
-      return { ...state }
+      return state
     case JOIN_GAME:
-      return { ...state }
+      return state
     default:
       return state
   }

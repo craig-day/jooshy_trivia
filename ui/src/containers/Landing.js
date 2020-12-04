@@ -2,10 +2,10 @@ import React from 'react'
 import { Row, Col } from '@zendeskgarden/react-grid'
 import { Button } from '@zendeskgarden/react-buttons'
 import { Field, Label, Input } from '@zendeskgarden/react-forms'
-import CreatePrompt from '../components/game/CreatePrompt'
+import CreateGameForm from '../components/game/CreateGameForm'
 import RowSpace from '../components/RowSpace'
 import { connect } from 'react-redux'
-import { createGame, joinGame } from '../redux/features/game/actions'
+import { createGame, joinGame } from '../features/game/actions'
 
 const CreateButton = (props) => (
   <Row alignItems="center">
@@ -40,15 +40,15 @@ const JoinButton = (props) => (
 )
 
 const LandingButtons = (props) => (
-  <div>
+  <>
     <CreateButton onClick={props.createGame} />
     <RowSpace />
     <JoinButton onClick={props.joinGame} />
-  </div>
+  </>
 )
 
 const JoinPrompt = (props) => (
-  <div>
+  <>
     <Row>
       <Col>
         <Field>
@@ -70,12 +70,12 @@ const JoinPrompt = (props) => (
         </Button>
       </Col>
     </Row>
-  </div>
+  </>
 )
 
 const Selection = (props) => {
   if (props.isCreating) {
-    return <CreatePrompt {...props} />
+    return <CreateGameForm {...props} />
   } else if (props.isJoining) {
     return <JoinPrompt {...props} />
   } else {
