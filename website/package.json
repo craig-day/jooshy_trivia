@@ -8,8 +8,11 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@zendeskgarden/react-buttons": "^8.28.1",
+    "@zendeskgarden/react-forms": "^8.28.1",
     "@zendeskgarden/react-grid": "^8.28.1",
     "@zendeskgarden/react-theming": "^8.28.1",
+    "axios": "^0.21.0",
+    "camelize": "^1.0.0",
     "connected-react-router": "^6.8.0",
     "history": "4.10.1",
     "prop-types": "^15.7.2",
@@ -19,6 +22,7 @@
     "react-router": "^5.2.0",
     "react-scripts": "4.0.1",
     "redux": "^4.0.5",
+    "snakeize": "^0.1.0",
     "styled-components": "^5.2.1"
   },
   "scripts": {

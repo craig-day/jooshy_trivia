@@ -1,17 +1,35 @@
 import React from 'react'
-import { ThemeProvider } from '@zendeskgarden/react-theming'
+import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { ConnectedRouter } from 'connected-react-router'
 import { Route, Switch } from 'react-router'
 import { history } from './app/store'
 import Landing from './features/landing/Landing'
 import './App.css'
+import { Create as CreateGame } from './features/game/Create'
+import { Join as JoinGame } from './features/game/Join'
+import { Edit as EditGame } from './features/game/Edit'
+
+const theme = {
+  ...DEFAULT_THEME,
+  fontSizes: {
+    xs: '12px',
+    sm: '14px',
+    md: '18px',
+    lg: '22px',
+    xl: '26px',
+    xxl: '36px',
+    xxxl: '48px',
+  },
+}
 
 const App = () => (
-  <ThemeProvider focusVisibleRef={null}>
+  <ThemeProvider theme={theme} focusVisibleRef={null}>
     <ConnectedRouter history={history}>
       <Switch>
-        <Route path="/create" render={() => null}></Route>
-        <Route path="/join" render={() => null}></Route>
+        <Route exact path="/games/:gameId/edit" component={EditGame} />
+        <Route path="/create" component={CreateGame}></Route>
+        <Route exact path="/join/:code" render={() => null} />
+        <Route path="/join" component={JoinGame}></Route>
         <Route render={() => <Landing />} />
       </Switch>
     </ConnectedRouter>

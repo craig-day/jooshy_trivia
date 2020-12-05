@@ -3,6 +3,7 @@ defmodule JooshyTriviaWeb.GameController do
 
   alias JooshyTrivia.Trivia
   alias JooshyTrivia.Trivia.Game
+  alias JooshyTrivia.Trivia.Session
 
   action_fallback JooshyTriviaWeb.FallbackController
 
@@ -38,6 +39,14 @@ defmodule JooshyTriviaWeb.GameController do
 
     with {:ok, %Game{}} <- Trivia.delete_game(game) do
       send_resp(conn, :no_content, "")
+    end
+  end
+
+  def join(conn, %{"code" => code, "name" => name}) do
+    game = Trivia.get_game_by_code!(code)
+
+    with {:ok, %Session{} = session} <- Trivia.join_game(game, name) do
+      render(conn, "show.json", game: game)
     end
   end
 end

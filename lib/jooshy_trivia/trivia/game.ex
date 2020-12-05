@@ -4,6 +4,7 @@ defmodule JooshyTrivia.Trivia.Game do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+
   schema "games" do
     field :code, :string
     field :max_players, :integer

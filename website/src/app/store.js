@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
 import counterReducer from '../features/counter/counterSlice'
 import { createBrowserHistory } from 'history'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
@@ -10,5 +10,5 @@ export default configureStore({
     router: connectRouter(history),
     counter: counterReducer,
   },
-  middleware: [routerMiddleware(history)],
+  middleware: [...getDefaultMiddleware(), routerMiddleware(history)],
 })

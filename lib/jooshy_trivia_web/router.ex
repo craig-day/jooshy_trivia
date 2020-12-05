@@ -8,6 +8,8 @@ defmodule JooshyTriviaWeb.Router do
   scope "/api", JooshyTriviaWeb do
     pipe_through :api
 
-    resources "/games", GameController, except: [:new, :edit]
+    resources "/games", GameController, except: [:new, :edit] do
+      post "/join", GameController, :join
+    end
   end
 end
