@@ -5,11 +5,15 @@ defmodule JooshyTriviaWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", JooshyTriviaWeb do
+  scope "/api" do
     pipe_through :api
 
-    resources "/games", GameController, except: [:new, :edit] do
-      post "/join", GameController, :join
+    forward "/graphql", Absinthe.Plug, schema: JooshyTriviaWeb.Schema
+
+    scope "/", JooshyTriviaWeb do
+      resources "/games", GameController, except: [:new, :edit] do
+        post "/join", GameController, :join
+      end
     end
   end
 end

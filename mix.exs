@@ -42,7 +42,9 @@ defmodule JooshyTrivia.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:uuid, "~> 1.1"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:absinthe, "~> 1.5.0"},
+      {:absinthe_plug, "~> 1.5"}
     ]
   end
 
