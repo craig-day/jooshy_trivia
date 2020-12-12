@@ -16,6 +16,7 @@ defmodule JooshyTriviaWeb.Schema do
   end
 
   import_types(JooshyTriviaWeb.Schema.Types)
+  import_types(JooshyTriviaWeb.Schema.Mutations.Game)
 
   query do
     field :say_hello, type: :string do
@@ -34,13 +35,7 @@ defmodule JooshyTriviaWeb.Schema do
       resolve(&Resolvers.Sample.flip_a_coin/3)
     end
 
-    field :create_game, type: :game do
-      arg(:name, non_null(:string))
-      arg(:starts_at, :string)
-      arg(:max_players, :integer)
-
-      resolve(&Resolvers.Game.create_game/3)
-    end
+    import_fields(:game_mutations)
 
     field :join_game, type: :session do
       arg(:code, non_null(:string))
