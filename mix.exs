@@ -41,7 +41,6 @@ defmodule JooshyTrivia.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:uuid, "~> 1.1"},
       {:cors_plug, "~> 2.0"},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"}

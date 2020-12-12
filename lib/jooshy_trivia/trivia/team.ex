@@ -1,4 +1,4 @@
-defmodule JooshyTrivia.Team do
+defmodule JooshyTrivia.Trivia.Team do
   use Ecto.Schema
   import Ecto.Changeset
 

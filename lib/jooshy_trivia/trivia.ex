@@ -41,6 +41,9 @@ defmodule JooshyTrivia.Trivia do
 
   def get_game_by_code!(code), do: Repo.get_by!(Game, code: code)
 
+  defp stringify_key({key, value}) when is_atom(key), do: {Atom.to_string(key), value}
+  defp stringify_key({key, value}) when is_binary(key), do: {key, value}
+
   @doc """
   Creates a game.
 
@@ -54,7 +57,11 @@ defmodule JooshyTrivia.Trivia do
 
   """
   def create_game(attrs \\ %{}) do
-    attrs = Map.put(attrs, "code", Game.generate_code())
+    attrs =
+      attrs
+      |> Map.put(:code, Game.generate_code())
+      |> Enum.map(&stringify_key/1)
+      |> Map.new()
 
     %Game{}
     |> Game.changeset(attrs)
@@ -210,6 +217,17 @@ defmodule JooshyTrivia.Trivia do
     User.changeset(user, attrs)
   end
 
-  def create_session(attrs \\ %{}) do
+  def create_session(attrs \\ %{})
+
+  def create_session(%{game: %Game{} = game, user: %User{} = user}) do
+    %Session{}
+    |> Session.changeset(%{game_id: game.id, user_id: user.id})
+    |> Repo.insert()
+  end
+
+  def create_session(attrs) do
+    %Session{}
+    |> Session.changeset(attrs)
+    |> Repo.insert()
   end
 end

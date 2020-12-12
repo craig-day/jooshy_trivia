@@ -4,25 +4,30 @@ defmodule JooshyTrivia.Trivia.Game do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @code_charset "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
   schema "games" do
     field :code, :string
     field :max_players, :integer
     field :starts_at, :utc_datetime
-    field :title, :string
+    field :name, :string
 
     timestamps()
   end
 
   def generate_code() do
-    UUID.uuid4()
-    |> String.slice(0, 8)
+    char_count = String.length(@code_charset)
+
+    for(_ <- 1..8, do: :rand.uniform(char_count) - 1)
+    |> Enum.map(&(@code_charset |> String.at(&1)))
+    |> List.to_string()
   end
 
   @doc false
   def changeset(game, attrs) do
     game
-    |> cast(attrs, [:code, :title, :starts_at, :max_players])
-    |> validate_required([:title])
+    |> cast(attrs, [:code, :name, :starts_at, :max_players])
+    |> validate_required([:name])
+    |> unique_constraint(:code)
   end
 end
