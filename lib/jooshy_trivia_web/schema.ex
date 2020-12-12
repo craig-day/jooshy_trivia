@@ -23,6 +23,10 @@ defmodule JooshyTriviaWeb.Schema do
       resolve(&Resolvers.Sample.say_hello/3)
     end
 
+    field :games, type: non_null(list_of(non_null(:game))) do
+      resolve(&Resolvers.Game.all_games/3)
+    end
+
     field :game, type: :game do
       arg(:id, non_null(:id))
 

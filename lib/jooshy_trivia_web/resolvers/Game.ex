@@ -3,6 +3,10 @@ defmodule JooshyTriviaWeb.Resolvers.Game do
   alias JooshyTrivia.Trivia
   alias JooshyTrivia.Trivia.{Game, Session, User}
 
+  def all_games(_parent, _args, _context) do
+    {:ok, Repo.all(Game)}
+  end
+
   def get_game(_parent, %{id: id}, _context) do
     with %Game{} = game <- Repo.get(Game, id) do
       {:ok, game}
