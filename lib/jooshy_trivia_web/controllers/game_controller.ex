@@ -45,7 +45,7 @@ defmodule JooshyTriviaWeb.GameController do
   def join(conn, %{"code" => code, "name" => name}) do
     game = Trivia.get_game_by_code!(code)
 
-    with {:ok, %Session{} = session} <- Trivia.join_game(game, name) do
+    with {:ok, %Session{}} <- Trivia.join_game(game, name) do
       render(conn, "show.json", game: game)
     end
   end

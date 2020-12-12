@@ -14,6 +14,8 @@ defmodule JooshyTriviaWeb.Router do
       resources "/games", GameController, except: [:new, :edit] do
         post "/join", GameController, :join
       end
+
+      resources "/users", UserController, except: [:new, :edit]
     end
   end
 end

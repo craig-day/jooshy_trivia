@@ -19,6 +19,6 @@ defmodule JooshyTriviaWeb.Resolvers.Team do
     {:error, "Team not found"}
   end
 
-  def join_team(parent, args, context) do
+  def join_team(_parent, _args, _context) do
   end
 end
