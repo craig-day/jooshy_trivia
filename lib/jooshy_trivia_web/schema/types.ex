@@ -1,6 +1,7 @@
 defmodule JooshyTriviaWeb.Schema.Types do
   use Absinthe.Schema.Notation
-  alias JooshyTriviaWeb.Resolvers
+  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  alias JooshyTrivia.Trivia
 
   object :game do
     field :id, non_null(:id)
@@ -8,8 +9,8 @@ defmodule JooshyTriviaWeb.Schema.Types do
     field :title, non_null(:string)
     field :max_players, :integer
 
-    field :teams, non_null(list_of(non_null(:team)))
-    field :players, non_null(list_of(non_null(:user)))
+    field :teams, non_null(list_of(non_null(:team))), resolve: dataloader(Trivia)
+    field :players, non_null(list_of(non_null(:user))), resolve: dataloader(Trivia)
   end
 
   object :user do
@@ -19,22 +20,14 @@ defmodule JooshyTriviaWeb.Schema.Types do
   object :team do
     field :name, non_null(:string)
 
-    field :members, non_null(list_of(non_null(:user)))
+    field :members, non_null(list_of(non_null(:user))), resolve: dataloader(Trivia)
   end
 
   object :session do
     field :id, non_null(:id)
 
-    field :game, non_null(:game) do
-      resolve(&Resolvers.Game.get_game/3)
-    end
-
-    field :user, non_null(:user) do
-      resolve(&Resolvers.User.get_user/3)
-    end
-
-    field :team, :team do
-      resolve(&Resolvers.Team.get_team/3)
-    end
+    field :game, non_null(:game), resolve: dataloader(Trivia)
+    field :user, non_null(:user), resolve: dataloader(Trivia)
+    field :team, :team, resolve: dataloader(Trivia)
   end
 end
