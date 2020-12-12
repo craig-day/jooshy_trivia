@@ -209,4 +209,7 @@ defmodule JooshyTrivia.Trivia do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def create_session(attrs \\ %{}) do
+  end
 end
