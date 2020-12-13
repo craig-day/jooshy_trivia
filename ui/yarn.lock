@@ -2300,6 +2300,13 @@
   dependencies:
     "@babel/runtime" "^7.8.4"
 
+"@zendeskgarden/react-grid@^8.28.1":
+  version "8.28.1"
+  resolved "https://registry.yarnpkg.com/@zendeskgarden/react-grid/-/react-grid-8.28.1.tgz#f465b5a463881ae6fd6c2b24def4c618635b0aab"
+  integrity sha512-VEeRWjH5dBYDKjf4Ovxd+8juAz/QBwU7dicmWSX0ZJ4ysfhvs25hfBZ9UeAHGeuQHVaXTbVvkS1LKTWhDhF9LA==
+  dependencies:
+    polished "^4.0.0"
+
 "@zendeskgarden/react-theming@^8.28.1":
   version "8.28.1"
   resolved "https://registry.yarnpkg.com/@zendeskgarden/react-theming/-/react-theming-8.28.1.tgz#a06f5851fe532e76b2152a8354f116b67e0605ba"
