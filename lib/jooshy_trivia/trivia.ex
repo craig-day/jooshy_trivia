@@ -31,6 +31,8 @@ defmodule JooshyTrivia.Trivia do
     Repo.all(Game)
   end
 
+  def get_game(id), do: Repo.get(Game, id)
+
   @doc """
   Gets a single game.
 
@@ -47,7 +49,19 @@ defmodule JooshyTrivia.Trivia do
   """
   def get_game!(id), do: Repo.get!(Game, id)
 
+  def get_game_by_code(code), do: Repo.get_by(Game, code: code)
+
   def get_game_by_code!(code), do: Repo.get_by!(Game, code: code)
+
+  def get_game_by_session(%Session{} = session) do
+    if Ecto.assoc_loaded?(session.game) do
+      session.game
+    else
+      session
+      |> Ecto.assoc(:game)
+      |> Repo.one()
+    end
+  end
 
   defp stringify_key({key, value}) when is_atom(key), do: {Atom.to_string(key), value}
   defp stringify_key({key, value}) when is_binary(key), do: {key, value}
@@ -160,6 +174,16 @@ defmodule JooshyTrivia.Trivia do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_session(%Session{} = session) do
+    if Ecto.assoc_loaded?(session.user) do
+      session.user
+    else
+      session
+      |> Ecto.assoc(:user)
+      |> Repo.one()
+    end
+  end
+
   @doc """
   Creates a user.
 
@@ -237,5 +261,15 @@ defmodule JooshyTrivia.Trivia do
     %Session{}
     |> Session.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def get_team_by_session(%Session{} = session) do
+    if Ecto.assoc_loaded?(session.team) do
+      session.team
+    else
+      session
+      |> Ecto.assoc(:team)
+      |> Repo.one()
+    end
   end
 end

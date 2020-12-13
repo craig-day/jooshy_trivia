@@ -1,17 +1,12 @@
 defmodule JooshyTriviaWeb.Resolvers.Team do
-  alias JooshyTrivia.Repo
-  alias JooshyTrivia.Trivia.Session
+  alias JooshyTrivia.Trivia
+  alias JooshyTrivia.Trivia.{Session, Team}
 
   def get_team(%Session{} = session, _args, _context) do
-    if Ecto.assoc_loaded?(session.team) do
-      {:ok, session.team}
-    else
-      team =
-        session
-        |> Ecto.assoc(:team)
-        |> Repo.one()
-
+    with %Team{} = team <- Trivia.get_team_by_session(session) do
       {:ok, team}
+    else
+      _err -> {:error, "Team not found"}
     end
   end
 

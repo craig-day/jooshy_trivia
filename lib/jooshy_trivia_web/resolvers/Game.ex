@@ -1,14 +1,13 @@
 defmodule JooshyTriviaWeb.Resolvers.Game do
-  alias JooshyTrivia.Repo
   alias JooshyTrivia.Trivia
   alias JooshyTrivia.Trivia.{Game, Session, User}
 
   def all_games(_parent, _args, _context) do
-    {:ok, Repo.all(Game)}
+    {:ok, Trivia.list_games()}
   end
 
   def get_game(_parent, %{id: id}, _context) do
-    with %Game{} = game <- Repo.get(Game, id) do
+    with %Game{} = game <- Trivia.get_game(id) do
       {:ok, game}
     else
       _err -> {:error, "Game not found"}
@@ -16,14 +15,10 @@ defmodule JooshyTriviaWeb.Resolvers.Game do
   end
 
   def get_game(%Session{} = session, _args, _context) do
-    if Ecto.assoc_loaded?(session.game) do
-      {:ok, session.game}
+    with %Game{} = game <- Trivia.get_game_by_session(session) do
+      {:ok, game}
     else
-      with %Game{} = game <- Repo.one(Ecto.assoc(session, :game)) do
-        {:ok, game}
-      else
-        _err -> {:error, "Game not found"}
-      end
+      _err -> {:error, "Game not found"}
     end
   end
 
@@ -40,7 +35,7 @@ defmodule JooshyTriviaWeb.Resolvers.Game do
     do: {:error, "Failed to create game"}
 
   def join_game(_parent, %{code: code, name: name}, _context) do
-    with %Game{} = game <- Repo.get_by(Game, code: code) do
+    with %Game{} = game <- Trivia.get_game_by_code(code) do
       with {:ok, %User{} = user} <- Trivia.create_user(%{name: name}) do
         Trivia.create_session(%{game: game, user: user})
       end

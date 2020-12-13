@@ -43,5 +43,8 @@ defmodule JooshyTriviaWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug CORSPlug
-  plug JooshyTriviaWeb.Router
+  plug Absinthe.Plug, schema: JooshyTriviaWeb.Schema
+
+  # Currently only a GraphQL API. Uncomment this to bring the router back.
+  # plug JooshyTriviaWeb.Router
 end
