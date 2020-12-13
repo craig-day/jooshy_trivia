@@ -12,7 +12,7 @@ defmodule JooshyTriviaWeb.Router do
 
     scope "/", JooshyTriviaWeb do
       resources "/games", GameController, except: [:new, :edit] do
-        post "/join", GameController, :join
+        post "/join", GameController, :join, as: :join
       end
 
       resources "/users", UserController, except: [:new, :edit]
