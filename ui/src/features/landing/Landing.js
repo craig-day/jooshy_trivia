@@ -18,7 +18,7 @@ const Landing = () => {
                   size="large"
                   isPrimary
                   isStretched
-                  onClick={(_e) => history.push('/create')}
+                  onClick={() => history.push('/create')}
                 >
                   Create Game
                 </Button>
@@ -29,7 +29,7 @@ const Landing = () => {
                   size="large"
                   isPrimary
                   isStretched
-                  onClick={(_e) => history.push('/join')}
+                  onClick={() => history.push('/join')}
                 >
                   Join Game
                 </Button>

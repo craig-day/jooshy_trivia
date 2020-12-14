@@ -11,6 +11,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@zendeskgarden/react-buttons": "^8.28.1",
+    "@zendeskgarden/react-forms": "^8.28.1",
     "@zendeskgarden/react-grid": "^8.28.1",
     "@zendeskgarden/react-theming": "^8.28.1",
     "graphql": "^15.4.0",

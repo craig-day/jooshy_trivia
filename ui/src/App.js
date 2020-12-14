@@ -15,9 +15,10 @@ import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import Landing from './features/landing/Landing'
 import { Join as JoinGame } from './features/game/Join'
 import { Create as CreateGame } from './features/game/Create'
+import { Edit as EditGame } from './features/game/Edit'
 
 const httpLink = createHttpLink({
-  uri: 'https://localhost:4000/graphql',
+  uri: 'http://localhost:4000/graphql',
 })
 
 const phoenixSocket = new PhoenixSocket('ws://localhost:4000/socket')
@@ -61,6 +62,10 @@ const App = () => (
             render={({ match }) => <JoinGame code={match.params.code} />}
           />
           <Route path="/join" component={JoinGame} />
+          <Route
+            path="/game/:id/edit"
+            render={({ match }) => <EditGame id={match.params.id} />}
+          />
           <Route path="/" component={Landing} />
         </Switch>
       </Router>
