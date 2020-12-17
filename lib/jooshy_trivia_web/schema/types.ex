@@ -6,7 +6,8 @@ defmodule JooshyTriviaWeb.Schema.Types do
   object :game do
     field :id, non_null(:id)
     field :code, non_null(:string)
-    field :title, non_null(:string)
+    field :name, non_null(:string)
+    field :starts_at, :string
     field :max_players, :integer
 
     field :teams, non_null(list_of(non_null(:team))), resolve: dataloader(Trivia)

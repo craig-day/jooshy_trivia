@@ -8,6 +8,7 @@ const Mode = {
   Default: 'DEFAULT',
   Joining: 'JOIN',
   Managing: 'MANAGE',
+  Loading: 'LOADING',
 }
 
 const CreateOrJoin = ({ onClickCreate, onClickJoin }) => (
@@ -36,11 +37,15 @@ const CreateOrJoin = ({ onClickCreate, onClickJoin }) => (
     </Col>
   </Row>
 )
-const CodeInput = () => (
+const CodeInput = ({ value, onChange }) => (
   <Row alignItems="center">
     <Col>
       <Field>
-        <Input placeholder="Code" />
+        <Input
+          placeholder="Code"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       </Field>
     </Col>
   </Row>
@@ -50,7 +55,7 @@ const PrimaryLayer = (props) => {
   switch (props.mode) {
     case Mode.Joining:
     case Mode.Managing:
-      return <CodeInput />
+      return <CodeInput value={props.code} onChange={props.onCodeChange} />
     default:
       return (
         <CreateOrJoin
@@ -77,15 +82,28 @@ const Manage = ({ onClickManage }) => (
   </Row>
 )
 
-const Submit = ({ onClickSubmit, onClickCancel }) => (
+const Submit = ({ isDisabled, onClickSubmit, onClickCancel }) => (
   <Row>
     <Col isStretched>
-      <Button size="large" isStretched isPrimary onClick={onClickSubmit}>
+      <Button
+        size="large"
+        isStretched
+        isPrimary
+        onClick={onClickSubmit}
+        isDisabled={isDisabled}
+      >
         Submit
       </Button>
     </Col>
     <Col isStretched>
-      <Button size="large" isStretched isBasic isDanger onClick={onClickCancel}>
+      <Button
+        size="large"
+        isStretched
+        isBasic
+        isDanger
+        onClick={onClickCancel}
+        isDisabled={isDisabled}
+      >
         Cancel
       </Button>
     </Col>
@@ -97,7 +115,14 @@ const SecondaryLayer = (props) => {
     case Mode.Joining:
       return <Submit onClickSubmit={() => {}} onClickCancel={props.onCancel} />
     case Mode.Managing:
-      return <Submit onClickSubmit={() => {}} onClickCancel={props.onCancel} />
+      return (
+        <Submit
+          onClickSubmit={props.onSubmitManage}
+          onClickCancel={props.onCancel}
+        />
+      )
+    case Mode.Loading:
+      return <Submit isDisabled />
     default:
       return <Manage onClickManage={props.onClickManage} />
   }
@@ -106,6 +131,7 @@ const SecondaryLayer = (props) => {
 export const Landing = () => {
   const history = useHistory()
   const [mode, setMode] = useState(Mode.Default)
+  const [code, setCode] = useState('')
 
   const onClickCreate = () => {
     history.push('/create')
@@ -119,6 +145,15 @@ export const Landing = () => {
     setMode(Mode.Managing)
   }
 
+  const onCodeChange = (value) => {
+    setCode(value)
+  }
+
+  const onSubmitManage = () => {
+    setMode(Mode.Loading)
+    history.push(`/game/${code}/edit`)
+  }
+
   const onCancel = () => {
     setMode(Mode.Default)
   }
@@ -130,6 +165,8 @@ export const Landing = () => {
           <Col size={3} textAlign="center">
             <PrimaryLayer
               mode={mode}
+              code={code}
+              onCodeChange={onCodeChange}
               onClickCreate={onClickCreate}
               onClickJoin={onClickJoin}
             />
@@ -143,6 +180,7 @@ export const Landing = () => {
             <SecondaryLayer
               mode={mode}
               onClickManage={onClickManage}
+              onSubmitManage={onSubmitManage}
               onCancel={onCancel}
             />
           </Col>

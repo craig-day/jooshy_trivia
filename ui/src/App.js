@@ -63,8 +63,8 @@ const App = () => (
           />
           <Route path="/join" component={JoinGame} />
           <Route
-            path="/game/:id/edit"
-            render={({ match }) => <EditGame id={match.params.id} />}
+            path="/game/:code/manage"
+            render={({ match }) => <EditGame code={match.params.code} />}
           />
           <Route path="/" component={Landing} />
         </Switch>

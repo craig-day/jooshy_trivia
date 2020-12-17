@@ -25,6 +25,17 @@ defmodule JooshyTriviaWeb.Resolvers.Game do
   def get_game(_parent, _args, _context),
     do: {:error, "You must provide an ID to fetch a game"}
 
+  def get_game_by_code(_parent, %{code: code}, _context) do
+    with %Game{} = game <- Trivia.get_game_by_code(code) do
+      {:ok, game}
+    else
+      _err -> {:error, "Game not found"}
+    end
+  end
+
+  def get_game_by_code(_parent, _args, _context),
+    do: {:error, "You must provide a code"}
+
   def create_game(_parent, %{name: _name} = args, _context) do
     args
     |> Map.take([:name, :starts_at, :max_players])

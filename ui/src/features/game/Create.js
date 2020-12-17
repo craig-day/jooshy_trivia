@@ -8,7 +8,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 const CREATE_GAME = gql`
   mutation CreateGame($name: String!, $startsAt: String, $maxPlayers: Int) {
     createGame(name: $name, startsAt: $startsAt, maxPlayers: $maxPlayers) {
-      id
+      code
     }
   }
 `
@@ -31,7 +31,7 @@ export const Create = () => {
     if (maxPlayers > 0) variables.maxPlayers = Number(maxPlayers)
 
     return createGame({ variables }).then(({ data }) => {
-      history.push(`/game/${data.createGame.id}/edit`)
+      history.push(`/game/${data.createGame.code}/manage`)
     })
   }
 

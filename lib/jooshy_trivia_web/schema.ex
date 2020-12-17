@@ -27,10 +27,16 @@ defmodule JooshyTriviaWeb.Schema do
       resolve(&Resolvers.Game.all_games/3)
     end
 
-    field :game, type: :game do
+    field :game, non_null(:game) do
       arg(:id, non_null(:id))
 
       resolve(&Resolvers.Game.get_game/3)
+    end
+
+    field :game_by_code, non_null(:game) do
+      arg(:code, non_null(:string))
+
+      resolve(&Resolvers.Game.get_game_by_code/3)
     end
   end
 
