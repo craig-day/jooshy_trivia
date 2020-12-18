@@ -8,6 +8,7 @@ import './App.css'
 import { Create as CreateGame } from './features/game/Create'
 import { Join as JoinGame } from './features/game/Join'
 import { Edit as EditGame } from './features/game/Edit'
+import { Create } from './features/admin/questions/MultipleChoice'
 
 const theme = {
   ...DEFAULT_THEME,
@@ -27,6 +28,7 @@ const App = () => (
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/games/:gameId/edit" component={EditGame} />
+        <Route exact path="/admin/questions" component={Create} />
         <Route path="/create" component={CreateGame}></Route>
         <Route exact path="/join/:code" render={() => null} />
         <Route path="/join" component={JoinGame}></Route>
