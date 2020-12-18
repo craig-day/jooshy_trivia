@@ -90,7 +90,7 @@ export const Edit = ({ code }) => {
           <NavItemIcon>
             <HomeIcon />
           </NavItemIcon>
-          <NavItemText>Game</NavItemText>
+          <NavItemText>Summary</NavItemText>
         </NavItem>
         <NavItem onClick={() => history.push(`${url}/teams`)}>
           <NavItemIcon>
@@ -108,12 +108,12 @@ export const Edit = ({ code }) => {
       <Body>
         <Header>
           <HeaderItemWrapper maxX maxY>
-            <Row style={{ width: '100%' }}>
+            <Row style={{ width: '100%', margin: 0 }} alignItems="center">
               <Col size={1}></Col>
               <Col textAlign="center" isStretched>
                 <XXXL>{data?.gameByCode?.name}</XXXL>
               </Col>
-              <Col textAlign="right" size={1}>
+              <Col textAlign="end" size={1} style={{ padding: 0 }}>
                 <Button isPrimary>
                   <Button.StartIcon>
                     <SaveIcon />

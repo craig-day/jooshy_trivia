@@ -151,7 +151,7 @@ export const Landing = () => {
 
   const onSubmitManage = () => {
     setMode(Mode.Loading)
-    history.push(`/game/${code}/edit`)
+    history.push(`/game/${code}/manage`)
   }
 
   const onCancel = () => {
