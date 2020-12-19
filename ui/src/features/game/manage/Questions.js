@@ -7,13 +7,6 @@ import { SAMPLE_GAME } from './fakeData'
 
 const tabId = (round) => `round-${round.number}`
 
-const RoundTabs = ({ rounds }) =>
-  rounds.map((round) => (
-    <Tab key={tabId(round)} item={tabId(round)}>
-      Round {round.number}
-    </Tab>
-  ))
-
 const CategoryQuestions = ({ questions }) =>
   questions.map((question, i) => (
     <Row key={`question-${i}`} style={{ paddingBottom: 8 }}>
@@ -90,7 +83,11 @@ export const Questions = () => {
   return (
     <Tabs style={{ width: '100%' }} isVertical>
       <TabList style={{ width: 150 }}>
-        <RoundTabs rounds={game.rounds} />
+        {game.rounds.map((round) => (
+          <Tab key={tabId(round)} item={tabId(round)}>
+            Round {round.number}
+          </Tab>
+        ))}
       </TabList>
       <TabPanels rounds={game.rounds} />
     </Tabs>
