@@ -64,6 +64,10 @@ const MainContent = ({ loading, url, game }) => {
     <Switch>
       <Route path={`${url}/teams`} render={() => <Teams game={game} />} />
       <Route
+        path={`${url}/questions/:round`}
+        render={() => <Questions game={game} />}
+      />
+      <Route
         path={`${url}/questions`}
         render={() => <Questions game={game} />}
       />
