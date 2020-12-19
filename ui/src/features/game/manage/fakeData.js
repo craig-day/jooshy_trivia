@@ -61,5 +61,37 @@ export const SAMPLE_GAME = {
         ],
       },
     ],
+    teams: [
+      {
+        name: 'Team Charmander',
+        members: [{ name: 'Craig' }, { name: 'Adam' }, { name: 'Ana' }],
+      },
+      {
+        name: 'Pikachu',
+        members: [
+          { name: 'Brock' },
+          { name: 'Ash' },
+          { name: 'Misty' },
+          { name: 'Professor Oak' },
+        ],
+      },
+      {
+        name: 'Squirttle',
+        members: [{ name: 'Blue' }],
+      },
+      {
+        name: 'Eevee',
+        members: [
+          { name: 'Jolteon' },
+          { name: 'Flareon' },
+          { name: 'Vaporeon' },
+        ],
+      },
+    ],
+    playersWithoutTeam: [
+      { name: 'Need Team' },
+      { name: 'So Lonely' },
+      { name: 'Forever Alone' },
+    ],
   },
 }

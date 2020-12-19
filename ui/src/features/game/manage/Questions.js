@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { MD, XXL } from '@zendeskgarden/react-typography'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { SAMPLE_GAME } from './fakeData'
 
 const tabId = (round) => `round-${round.number}`
@@ -125,13 +126,32 @@ const TabPanels = ({ rounds }) =>
 
 export const Questions = () => {
   const { game } = SAMPLE_GAME
+  const history = useHistory()
+  const { round } = useParams()
+  const { path, url } = useRouteMatch()
+  const [selectedTab, setSelectedTab] = useState(round || tabId(game.rounds[0]))
+
+  const onChangeTab = (tab) => {
+    setSelectedTab(tab)
+
+    const nextPath = path.endsWith(':round')
+      ? path.replace(':round', tab)
+      : `${url}/${tab}`
+
+    history.push(nextPath)
+  }
 
   return (
-    <Tabs style={{ width: '100%' }} isVertical>
+    <Tabs
+      selectedItem={selectedTab}
+      onChange={onChangeTab}
+      style={{ width: '100%' }}
+      isVertical
+    >
       <TabList style={{ width: 150 }}>
         {game.rounds.map((round) => (
           <Tab key={tabId(round)} item={tabId(round)}>
-            Round {round.number}
+            <MD isBold>Round {round.number}</MD>
           </Tab>
         ))}
       </TabList>

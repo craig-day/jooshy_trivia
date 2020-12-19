@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Body,
   Chrome,
@@ -14,7 +14,7 @@ import {
 import { MD, XL, XXXL } from '@zendeskgarden/react-typography'
 import { Skeleton } from '@zendeskgarden/react-loaders'
 import { ReactComponent as HomeIcon } from '@zendeskgarden/svg-icons/src/26/home-fill.svg'
-import { ReactComponent as PlayersIcon } from '@zendeskgarden/svg-icons/src/26/group-fill.svg'
+import { ReactComponent as PlayersIcon } from '@zendeskgarden/svg-icons/src/16/user-list-fill.svg'
 import { ReactComponent as QuestionIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg'
 import { ReactComponent as SaveIcon } from '@zendeskgarden/svg-icons/src/16/folder-closed-fill.svg'
 import { gql, useQuery } from '@apollo/client'
@@ -64,6 +64,10 @@ const MainContent = ({ loading, url, game }) => {
     <Switch>
       <Route path={`${url}/teams`} render={() => <Teams game={game} />} />
       <Route
+        path={`${url}/questions/:round`}
+        render={() => <Questions game={game} />}
+      />
+      <Route
         path={`${url}/questions`}
         render={() => <Questions game={game} />}
       />
@@ -77,8 +81,24 @@ export const Edit = ({ code }) => {
     variables: { code },
   })
 
+  const [currentNav, setCurrentNav] = useState('')
   const history = useHistory()
   const { url } = useRouteMatch()
+
+  const onClickNav = (nav) => {
+    setCurrentNav(nav)
+
+    switch (nav) {
+      case 'teams':
+        history.push(`${url}/teams`)
+        break
+      case 'questions':
+        history.push(`${url}/questions`)
+        break
+      default:
+        history.push(`/game/${code}/manage`)
+    }
+  }
 
   return (
     <Chrome isFluid>
@@ -86,19 +106,25 @@ export const Edit = ({ code }) => {
         <NavItem hasLogo>
           <NavItemText>This needs a logo</NavItemText>
         </NavItem>
-        <NavItem onClick={() => history.push(`/game/${code}/manage`)}>
+        <NavItem isCurrent={currentNav === ''} onClick={() => onClickNav('')}>
           <NavItemIcon>
             <HomeIcon />
           </NavItemIcon>
           <NavItemText>Summary</NavItemText>
         </NavItem>
-        <NavItem onClick={() => history.push(`${url}/teams`)}>
+        <NavItem
+          isCurrent={currentNav === 'teams'}
+          onClick={() => onClickNav('teams')}
+        >
           <NavItemIcon>
             <PlayersIcon />
           </NavItemIcon>
           <NavItemText>Teams</NavItemText>
         </NavItem>
-        <NavItem onClick={() => history.push(`${url}/questions`)}>
+        <NavItem
+          isCurrent={currentNav === 'questions'}
+          onClick={() => onClickNav('questions')}
+        >
           <NavItemIcon>
             <QuestionIcon />
           </NavItemIcon>
