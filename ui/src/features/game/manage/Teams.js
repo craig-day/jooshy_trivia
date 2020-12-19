@@ -4,11 +4,7 @@ import { Title, Well } from '@zendeskgarden/react-notifications'
 import { Span } from '@zendeskgarden/react-typography'
 import { ReactComponent as TeamIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg'
 import { SAMPLE_GAME } from './fakeData'
-
-const chunk = (arr, size) =>
-  Array.from({ length: Math.ceil(arr.length / size) }, (_, i) =>
-    arr.slice(i * size, i * size + size)
-  )
+import * as List from '../../../utils/List'
 
 const TeamMembers = ({ members }) => (
   <ul>
@@ -43,7 +39,7 @@ const TeamChunk = ({ teams }) => {
 }
 
 const TeamRows = ({ teams }) =>
-  chunk(teams, 3).map((teamsChunk, i) => (
+  List.chunk(teams, 3).map((teamsChunk, i) => (
     <React.Fragment key={`team-row-${i}`}>
       <Row>
         <TeamChunk teams={teamsChunk} />

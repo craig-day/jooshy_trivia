@@ -95,3 +95,18 @@ export const SAMPLE_GAME = {
     ],
   },
 }
+
+export const SAMPLE_ROUND_TYPES = [
+  {
+    name: 'PickOne',
+    description:
+      'Select the item in the pair better associated with each question.',
+  },
+  { name: 'MultipleChoice', description: 'Select the most accurate answer.' },
+  { name: 'Music', description: 'Identify the artist and song title.' },
+  { name: 'Sequence', description: 'Identify the next item in the sequence.' },
+  {
+    name: 'Image',
+    description: 'Find the connection in each group.',
+  },
+]
