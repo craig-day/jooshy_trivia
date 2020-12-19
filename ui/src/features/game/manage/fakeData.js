@@ -43,11 +43,22 @@ export const SAMPLE_GAME = {
         ],
       },
       {
-        __typename: 'StandaloneQuestions',
+        __typename: 'MultipleChoice',
         number: 2,
-        name: 'Sequences',
-        description: 'Find the next item in the sequence.',
-        questions: [{ title: 'NFL Quarterbacks' }],
+        name: 'Some Multiple Choice Thing',
+        description: 'Pick the right answer.',
+        questions: [
+          {
+            prompt: 'Which string is the most common first program',
+            choices: {
+              a: 'Hello, world',
+              b: 'Hello, world.',
+              c: 'Hello, world!',
+              d: 'Hello, World!',
+            },
+            answer: 'c',
+          },
+        ],
       },
     ],
   },

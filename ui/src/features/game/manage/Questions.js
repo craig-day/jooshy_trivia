@@ -50,7 +50,47 @@ const PickOne = ({ name, description, options, categories }) => (
   </Grid>
 )
 
-const MultipleChoice = ({ round }) => null
+const MultipleChoiceAnswers = ({ answers }) =>
+  Object.entries(answers).map(([letter, choice]) => (
+    <Row key={`answer-${letter}`} style={{ paddingBottom: 8 }}>
+      <Col>
+        <MD tag="span" isBold>
+          {`${letter}. `}
+        </MD>
+        <MD tag="span">{choice}</MD>
+      </Col>
+    </Row>
+  ))
+
+const MultipleChoiceQuestions = ({ questions }) =>
+  questions.map((question, i) => (
+    <React.Fragment key={`question-${i}`}>
+      <Row>
+        <Col>
+          <Well>
+            <Title>{`${i + 1}. ${question.prompt}`}</Title>
+            <br />
+            <MultipleChoiceAnswers answers={question.choices} />
+          </Well>
+        </Col>
+      </Row>
+    </React.Fragment>
+  ))
+
+const MultipleChoice = ({ name, description, questions }) => (
+  <Grid>
+    <Row>
+      <Col>
+        <XXL>{name}</XXL>
+        <br />
+        <Paragraph>{description}</Paragraph>
+      </Col>
+    </Row>
+    <br />
+    <br />
+    <MultipleChoiceQuestions questions={questions} />
+  </Grid>
+)
 
 const Round = ({ round }) => {
   switch (round.__typename) {
@@ -64,7 +104,13 @@ const Round = ({ round }) => {
         />
       )
     case 'MultipleChoice':
-      return <MultipleChoice round={round} />
+      return (
+        <MultipleChoice
+          name={round.name}
+          description={round.description}
+          questions={round.questions}
+        />
+      )
     default:
       return null
   }
