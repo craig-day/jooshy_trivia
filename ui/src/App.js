@@ -11,7 +11,7 @@ import * as AbsintheSocket from '@absinthe/socket'
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
 import { Socket as PhoenixSocket } from 'phoenix'
 import { hasSubscription } from '@jumpn/utils-graphql'
-import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
+import { ThemeProvider } from '@zendeskgarden/react-theming'
 import Landing from './features/landing/Landing'
 import { Join as JoinGame } from './features/game/Join'
 import { Create as CreateGame } from './features/game/Create'
@@ -39,21 +39,8 @@ const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
 })
 
-const theme = {
-  ...DEFAULT_THEME,
-  fontSizes: {
-    xs: '12px',
-    sm: '14px',
-    md: '18px',
-    lg: '22px',
-    xl: '26px',
-    xxl: '36px',
-    xxxl: '48px',
-  },
-}
-
 const App = () => (
-  <ThemeProvider focusVisibleRef={null} theme={theme}>
+  <ThemeProvider focusVisibleRef={null}>
     <ApolloProvider client={apolloClient}>
       <Router>
         <Switch>

@@ -1,10 +1,18 @@
 import React, { useState } from 'react'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
-import { MD, XXL } from '@zendeskgarden/react-typography'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
-import { SAMPLE_GAME } from './fakeData'
+import { MD, Span, XXL } from '@zendeskgarden/react-typography'
+import { ReactComponent as AddIcon } from '@zendeskgarden/svg-icons/src/16/plus-fill.svg'
+import { ReactComponent as BulletListIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-stroke.svg'
+import { ReactComponent as RecordIcon } from '@zendeskgarden/svg-icons/src/16/record-fill.svg'
+import { ReactComponent as MusicIcon } from '@zendeskgarden/svg-icons/src/16/volume-unmuted-fill.svg'
+import { ReactComponent as SequenceIcon } from '@zendeskgarden/svg-icons/src/16/list-number-stroke.svg'
+import { ReactComponent as ImageIcon } from '@zendeskgarden/svg-icons/src/16/image-fill.svg'
+import { Tiles } from '@zendeskgarden/react-forms'
+import { SAMPLE_GAME, SAMPLE_ROUND_TYPES } from './fakeData'
+import * as List from '../../../utils/List'
 
 const tabId = (round) => `round-${round.number}`
 
@@ -124,6 +132,64 @@ const TabPanels = ({ rounds }) =>
     </TabPanel>
   ))
 
+const RoundTypeIcon = ({ category }) => {
+  switch (category) {
+    case 'PickOne':
+      return <RecordIcon />
+    case 'MultipleChoice':
+      return <BulletListIcon />
+    case 'Music':
+      return <MusicIcon />
+    case 'Sequence':
+      return <SequenceIcon />
+    case 'Image':
+      return <ImageIcon />
+    default:
+      return null
+  }
+}
+
+const RoundTypes = ({ categories }) => (
+  <Tiles name="round-types" isCentered={false}>
+    {List.chunk(categories, 3).map((categoryChunk, i) => (
+      <React.Fragment key={`new-round-cat-${i}`}>
+        <Row>
+          {categoryChunk.map((category) => (
+            <Col size={4} key={`category-${category.name}`}>
+              <Tiles.Tile value={category.name}>
+                <Tiles.Icon>
+                  <RoundTypeIcon category={category.name} />
+                </Tiles.Icon>
+                <Tiles.Label>{category.name}</Tiles.Label>
+                <Tiles.Description>{category.description}</Tiles.Description>
+              </Tiles.Tile>
+            </Col>
+          ))}
+        </Row>
+        <br />
+      </React.Fragment>
+    ))}
+  </Tiles>
+)
+
+const AddRoundTab = () => (
+  <TabPanel item="add-round">
+    <Grid>
+      <Row>
+        <Col size={8}>
+          <Row>
+            <Col>
+              <XXL>New Round</XXL>
+            </Col>
+          </Row>
+          <br />
+          <RoundTypes categories={SAMPLE_ROUND_TYPES} />
+        </Col>
+      </Row>
+    </Grid>
+  </TabPanel>
+)
+
 export const Questions = () => {
   const { game } = SAMPLE_GAME
   const history = useHistory()
@@ -151,11 +217,20 @@ export const Questions = () => {
       <TabList style={{ width: 150 }}>
         {game.rounds.map((round) => (
           <Tab key={tabId(round)} item={tabId(round)}>
-            <MD isBold>Round {round.number}</MD>
+            Round {round.number}
           </Tab>
         ))}
+        <Tab item="add-round">
+          <Span>
+            <Span.StartIcon>
+              <AddIcon />
+            </Span.StartIcon>
+            New
+          </Span>
+        </Tab>
       </TabList>
       <TabPanels rounds={game.rounds} />
+      <AddRoundTab />
     </Tabs>
   )
 }
