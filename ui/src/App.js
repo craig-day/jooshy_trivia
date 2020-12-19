@@ -16,6 +16,7 @@ import Landing from './features/landing/Landing'
 import { Join as JoinGame } from './features/game/Join'
 import { Create as CreateGame } from './features/game/Create'
 import { Edit as EditGame } from './features/game/Edit'
+import { Create as MultipleChoice } from './features/admin/questions/MultipleChoice'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:4000/graphql',
@@ -56,6 +57,7 @@ const App = () => (
     <ApolloProvider client={apolloClient}>
       <Router>
         <Switch>
+          <Route path="/admin/questions" component={MultipleChoice} />
           <Route path="/create" component={CreateGame} />
           <Route
             path="/join/:code"
