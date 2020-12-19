@@ -5,6 +5,7 @@ import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { MD, XXL } from '@zendeskgarden/react-typography'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { SAMPLE_GAME } from './fakeData'
+import { Field, Label, Radio } from '@zendeskgarden/react-forms'
 
 const tabId = (round) => `round-${round.number}`
 
@@ -51,32 +52,68 @@ const PickOne = ({ name, description, options, categories }) => (
   </Grid>
 )
 
-const MultipleChoiceAnswers = ({ answers }) =>
-  Object.entries(answers).map(([letter, choice]) => (
-    <Row key={`answer-${letter}`} style={{ paddingBottom: 8 }}>
+const MultipleChoiceAnswers = ( props ) => {
+
+  function AddAnswers(choices) {
+    return Object.entries(choices).map(MakeRadio)
+  }
+
+  function MakeRadio([letter, choice]) {
+    return (
+      <Field key={`answers-${letter}`}>
+        <Radio
+          name={choice}
+          value={choice}
+          checked={props.radioValue === choice}
+          onChange={(event) => props.setRadioValue(event.target.value)}
+        >
+          <Label>{`${letter}. ${choice}`}</Label>
+        </Radio>
+      </Field>
+    )
+  }
+
+  return (
+    <Row key={`answer`} style={{ paddingBottom: 8 }}>
       <Col>
         <MD tag="span" isBold>
-          {`${letter}. `}
+          {AddAnswers(props.choices)}
         </MD>
-        <MD tag="span">{choice}</MD>
       </Col>
     </Row>
-  ))
+  )
+}
 
-const MultipleChoiceQuestions = ({ questions }) =>
-  questions.map((question, i) => (
-    <React.Fragment key={`question-${i}`}>
-      <Row>
-        <Col>
-          <Well>
-            <Title>{`${i + 1}. ${question.prompt}`}</Title>
-            <br />
-            <MultipleChoiceAnswers answers={question.choices} />
-          </Well>
-        </Col>
-      </Row>
-    </React.Fragment>
-  ))
+const MultipleChoiceQuestion = ( {question, index} ) => {
+
+  const [radioValue, setRadioValue] = useState('')
+  const [q, setQ] = useState(question)
+
+  return (
+    <Row>
+      <Col>
+        <Well>
+          <Title>{`${index + 1}. ${q.prompt}`}</Title>
+          <br />
+          <MultipleChoiceAnswers choices={q.choices} radioValue={radioValue} setRadioValue={setRadioValue} />
+        </Well>
+      </Col>
+      <Col>
+        <Well>
+          <Title>{`${index + 1}. Last submitted answer:`}</Title>
+          <br />
+          <Paragraph>{radioValue}</Paragraph>
+        </Well>
+      </Col>
+    </Row>
+  )
+}
+
+const MultipleChoiceQuestions = ({ questions }) => {
+
+  return questions.map( (question, index) => <MultipleChoiceQuestion question={question} index={index} key={`question-${index}`}/> )
+
+}
 
 const MultipleChoice = ({ name, description, questions }) => (
   <Grid>
