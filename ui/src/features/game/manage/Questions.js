@@ -71,7 +71,12 @@ const MultipleChoiceAnswers = (props) => {
           name={choice}
           value={choice}
           checked={props.radioValue === choice}
-          onChange={(event) => props.setRadioValue(event.target.value)}
+          onChange={(event) => {
+            props.setRadioValue(event.target.value)
+            if (props.answer === event.target.value) {
+              props.setScoreValue(props.score + 1)
+            }
+          }}
         >
           <Label>{`${letter}. ${choice}`}</Label>
         </Radio>
@@ -90,9 +95,11 @@ const MultipleChoiceAnswers = (props) => {
   )
 }
 
-const MultipleChoiceQuestion = ({ question, index }) => {
+const MultipleChoiceQuestion = ({ question, index, score, setScoreValue }) => {
   const [radioValue, setRadioValue] = useState('')
   const [q, setQ] = useState(question)
+
+  console.log(score)
 
   return (
     <Row>
@@ -102,8 +109,11 @@ const MultipleChoiceQuestion = ({ question, index }) => {
           <br />
           <MultipleChoiceAnswers
             choices={q.choices}
+            answer={q.answer}
             radioValue={radioValue}
             setRadioValue={setRadioValue}
+            score={score}
+            setScoreValue={setScoreValue}
           />
         </Well>
       </Col>
@@ -118,30 +128,44 @@ const MultipleChoiceQuestion = ({ question, index }) => {
   )
 }
 
-const MultipleChoiceQuestions = ({ questions }) => {
+const MultipleChoiceQuestions = ({ questions, score, setScoreValue }) => {
   return questions.map((question, index) => (
     <MultipleChoiceQuestion
       question={question}
       index={index}
+      score={score}
+      setScoreValue={setScoreValue}
       key={`question-${index}`}
     />
   ))
 }
 
-const MultipleChoice = ({ name, description, questions }) => (
-  <Grid>
-    <Row>
-      <Col>
-        <XXL>{name}</XXL>
-        <br />
-        <Paragraph>{description}</Paragraph>
-      </Col>
-    </Row>
-    <br />
-    <br />
-    <MultipleChoiceQuestions questions={questions} />
-  </Grid>
-)
+const MultipleChoice = ({ name, description, questions }) => {
+  const [score, setScoreValue] = useState(0)
+
+  return (
+    <Grid>
+      <Row>
+        <Col>
+          <XXL>{name}</XXL>
+          <br />
+          <Paragraph>{description}</Paragraph>
+        </Col>
+      </Row>
+      <br />
+      <br />
+      <MultipleChoiceQuestions
+        questions={questions}
+        score={score}
+        setScoreValue={setScoreValue}
+      />
+      <Row>
+        <Paragraph>{`Score: ${score}`}</Paragraph>
+      </Row>
+    </Grid>
+  )
+>>>>>>> 0c3d422... Changed Questions.js
+}
 
 const Round = ({ round }) => {
   switch (round.__typename) {

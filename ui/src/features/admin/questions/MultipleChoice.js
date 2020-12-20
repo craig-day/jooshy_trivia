@@ -4,8 +4,8 @@ import { Row, Col } from '@zendeskgarden/react-grid'
 
 export const Create = (_props) => {
   const [radioValue, setRadioValue] = useState('')
-  const [question, setQuestion] = useState('PICK ME')
-  const [choices, setChoices] = useState(['PICK ME 1', 'PICK ME 2'])
+  const [question, setQuestion] = useState('')
+  const [choices, setChoices] = useState('')
   const [answer, setAnswer] = useState('')
 
   function AddAnswers(choices) {
@@ -39,8 +39,8 @@ export const Create = (_props) => {
   )
 }
 
-export function Hi() {
-  return <div>hi</div>
-}
+// export function Hi() {
+//   return <div>hi</div>
+// }
 
 //export default Question

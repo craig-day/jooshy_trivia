@@ -56,7 +56,17 @@ export const SAMPLE_GAME = {
               c: 'Hello, world!',
               d: 'Hello, World!',
             },
-            answer: 'c',
+            answer: 'Hello, world!',
+          },
+          {
+            prompt: 'Who is the tallest?',
+            choices: {
+              a: 'Josh',
+              b: 'Avin',
+              c: 'Craig',
+              d: 'Michael',
+            },
+            answer: 'Josh',
           },
         ],
       },
