@@ -16,7 +16,7 @@ import { Skeleton } from '@zendeskgarden/react-loaders'
 import { ReactComponent as HomeIcon } from '@zendeskgarden/svg-icons/src/26/home-fill.svg'
 import { ReactComponent as PlayersIcon } from '@zendeskgarden/svg-icons/src/16/user-list-fill.svg'
 import { ReactComponent as QuestionIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg'
-import { ReactComponent as SaveIcon } from '@zendeskgarden/svg-icons/src/16/folder-closed-fill.svg'
+import { ReactComponent as ExitIcon } from '@zendeskgarden/svg-icons/src/16/exit-fill.svg'
 import { gql, useQuery } from '@apollo/client'
 import { Col, Row } from '@zendeskgarden/react-grid'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
@@ -84,6 +84,19 @@ export const Edit = ({ code }) => {
   const [currentNav, setCurrentNav] = useState('')
   const history = useHistory()
   const { url } = useRouteMatch()
+  const {
+    location: { pathname },
+  } = history
+
+  const questionUrlPattern = new RegExp(`${url}/questions`)
+
+  const isSelectedNav = (nav) => {
+    if (pathname.match(questionUrlPattern)) {
+      return nav === 'questions'
+    } else {
+      return nav === currentNav
+    }
+  }
 
   const onClickNav = (nav) => {
     setCurrentNav(nav)
@@ -106,14 +119,14 @@ export const Edit = ({ code }) => {
         <NavItem hasLogo>
           <NavItemText>This needs a logo</NavItemText>
         </NavItem>
-        <NavItem isCurrent={currentNav === ''} onClick={() => onClickNav('')}>
+        <NavItem isCurrent={isSelectedNav('')} onClick={() => onClickNav('')}>
           <NavItemIcon>
             <HomeIcon />
           </NavItemIcon>
           <NavItemText>Summary</NavItemText>
         </NavItem>
         <NavItem
-          isCurrent={currentNav === 'teams'}
+          isCurrent={isSelectedNav('teams')}
           onClick={() => onClickNav('teams')}
         >
           <NavItemIcon>
@@ -122,7 +135,7 @@ export const Edit = ({ code }) => {
           <NavItemText>Teams</NavItemText>
         </NavItem>
         <NavItem
-          isCurrent={currentNav === 'questions'}
+          isCurrent={isSelectedNav('questions')}
           onClick={() => onClickNav('questions')}
         >
           <NavItemIcon>
@@ -140,11 +153,11 @@ export const Edit = ({ code }) => {
                 <XXXL>{data?.gameByCode?.name}</XXXL>
               </Col>
               <Col textAlign="end" size={1} style={{ padding: 0 }}>
-                <Button isPrimary>
+                <Button>
                   <Button.StartIcon>
-                    <SaveIcon />
+                    <ExitIcon />
                   </Button.StartIcon>
-                  Save
+                  Exit
                 </Button>
               </Col>
             </Row>
