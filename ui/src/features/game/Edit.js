@@ -23,7 +23,7 @@ import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 import { Button } from '@zendeskgarden/react-buttons'
 import Summary from '../admin/summary/Summary'
 import Teams from '../admin/teams/Teams'
-import Questions from '../admin/questions/Questions'
+import Rounds from '../admin/rounds/Rounds'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
@@ -65,12 +65,9 @@ const MainContent = ({ loading, url, game }) => {
       <Route path={`${url}/teams`} render={() => <Teams game={game} />} />
       <Route
         path={`${url}/questions/:round`}
-        render={() => <Questions game={game} />}
+        render={() => <Rounds game={game} />}
       />
-      <Route
-        path={`${url}/questions`}
-        render={() => <Questions game={game} />}
-      />
+      <Route path={`${url}/questions`} render={() => <Rounds game={game} />} />
       <Route path={url} render={() => <Summary game={game} />} />
     </Switch>
   )

@@ -4,8 +4,8 @@ import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { Span } from '@zendeskgarden/react-typography'
 import { ReactComponent as AddIcon } from '@zendeskgarden/svg-icons/src/16/plus-fill.svg'
 import { SAMPLE_GAME, SAMPLE_ROUND_TYPES } from '../fakeData'
-import NewRound from '../rounds/NewRound'
-import Round from '../rounds/Round'
+import NewRound from './NewRound'
+import Round from './Round'
 
 const tabId = (round) => `round-${round.number}`
 

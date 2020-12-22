@@ -42,7 +42,6 @@ const MultipleChoiceAnswers = (props) => {
 
 const MultipleChoiceQuestion = ({ question, index, score, setScoreValue }) => {
   const [radioValue, setRadioValue] = useState('')
-  const [q, setQ] = useState(question)
 
   console.log(score)
 
@@ -50,11 +49,11 @@ const MultipleChoiceQuestion = ({ question, index, score, setScoreValue }) => {
     <Row>
       <Col>
         <Well>
-          <Title>{`${index + 1}. ${q.prompt}`}</Title>
+          <Title>{`${index + 1}. ${question.prompt}`}</Title>
           <br />
           <MultipleChoiceAnswers
-            choices={q.choices}
-            answer={q.answer}
+            choices={question.choices}
+            answer={question.answer}
             radioValue={radioValue}
             setRadioValue={setRadioValue}
             score={score}
