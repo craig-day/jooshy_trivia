@@ -1,7 +1,8 @@
 import React from 'react'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
-import { MD, XXL } from '@zendeskgarden/react-typography'
-import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
+import { MD } from '@zendeskgarden/react-typography'
+import { Well, Title } from '@zendeskgarden/react-notifications'
+import RoundHeader from './RoundHeader'
 
 const CategoryQuestions = ({ questions }) =>
   questions.map((question, i) => (
@@ -33,15 +34,7 @@ const PickOneCategories = ({ categories }) =>
 
 export const PickOne = ({ name, description, options, categories }) => (
   <Grid>
-    <Row>
-      <Col>
-        <XXL>{name}</XXL>
-        <br />
-        <Paragraph>{description}</Paragraph>
-      </Col>
-    </Row>
-    <hr />
-    <br />
+    <RoundHeader name={name} description={description} />
     <PickOneCategories categories={categories} />
   </Grid>
 )

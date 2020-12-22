@@ -3,6 +3,7 @@ import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Field, Label, Radio } from '@zendeskgarden/react-forms'
 import { MD, XXL } from '@zendeskgarden/react-typography'
+import RoundHeader from './RoundHeader'
 
 const MultipleChoiceAnswers = (props) => {
   function AddAnswers(choices) {
@@ -89,15 +90,7 @@ export const MultipleChoice = ({ name, description, questions }) => {
 
   return (
     <Grid>
-      <Row>
-        <Col>
-          <XXL>{name}</XXL>
-          <br />
-          <Paragraph>{description}</Paragraph>
-        </Col>
-      </Row>
-      <hr />
-      <br />
+      <RoundHeader name={name} description={description} />
       <MultipleChoiceQuestions
         questions={questions}
         score={score}
