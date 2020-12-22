@@ -3,7 +3,7 @@ import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Title, Well } from '@zendeskgarden/react-notifications'
 import { Span } from '@zendeskgarden/react-typography'
 import { ReactComponent as TeamIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg'
-import { SAMPLE_GAME } from './fakeData'
+import { SAMPLE_GAME } from '../fakeData'
 import * as List from '../../../utils/List'
 
 const TeamMembers = ({ members }) => (

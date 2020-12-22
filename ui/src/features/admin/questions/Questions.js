@@ -14,7 +14,7 @@ import { ReactComponent as RecordIcon } from '@zendeskgarden/svg-icons/src/16/re
 import { ReactComponent as MusicIcon } from '@zendeskgarden/svg-icons/src/16/volume-unmuted-fill.svg'
 import { ReactComponent as SequenceIcon } from '@zendeskgarden/svg-icons/src/16/list-number-stroke.svg'
 import { ReactComponent as ImageIcon } from '@zendeskgarden/svg-icons/src/16/image-fill.svg'
-import { SAMPLE_GAME, SAMPLE_ROUND_TYPES } from './fakeData'
+import { SAMPLE_GAME, SAMPLE_ROUND_TYPES } from '../fakeData'
 import * as List from '../../../utils/List'
 
 const tabId = (round) => `round-${round.number}`
@@ -169,36 +169,36 @@ const MultipleChoice = ({ name, description, questions }) => {
   )
 }
 
-
 const StyledButtons = styled.div`
-  margin-top: ${p => p.theme.space.sm};
-  padding: ${p => p.theme.shadowWidths.md};
+  margin-top: ${(p) => p.theme.space.sm};
+  padding: ${(p) => p.theme.shadowWidths.md};
 
   & > button {
-    margin-${p => (p.theme.rtl ? 'right' : 'left')}: ${p => p.theme.space.base * 3}px;
+    margin-${(p) => (p.theme.rtl ? 'right' : 'left')}: ${(p) =>
+  p.theme.space.base * 3}px;
 
     &:first-child {
-      margin-${p => (p.theme.rtl ? 'right' : 'left')}: 0;
+      margin-${(p) => (p.theme.rtl ? 'right' : 'left')}: 0;
     }
   }
-`;
+`
 
 const StyledContainer = styled.div`
-  margin: ${p => p.theme.space.md} 0 0 0;
-`;
+  margin: ${(p) => p.theme.space.md} 0 0 0;
+`
 
-const RoundCreationStepper = ( {categories} ) => {
-  const [currentStep, setStep] = useState(0);
+const RoundCreationStepper = ({ categories }) => {
+  const [currentStep, setStep] = useState(0)
 
   console.log(currentStep)
 
-  const onNext = () => setStep(currentStep + 1);
-  const onBack = () => setStep(currentStep - 1);
+  const onNext = () => setStep(currentStep + 1)
+  const onBack = () => setStep(currentStep - 1)
 
   const allSteps = [
     {
       content: <RoundTypes categories={categories} />,
-      buttons: <Button onClick={onNext}>Next</Button>
+      buttons: <Button onClick={onNext}>Next</Button>,
     },
     {
       content: `Add Questions and Answers.`,
@@ -207,13 +207,13 @@ const RoundCreationStepper = ( {categories} ) => {
           <Button onClick={onBack}>Back</Button>
           <Button onClick={onNext}>Next</Button>
         </React.Fragment>
-      )
+      ),
     },
     {
       content: `Buy clean, hearty, disease-free seeds. Most seed from reliable seed companies will meet these specifications.`,
-      buttons: <Button onClick={onBack}>Back</Button>
-    }
-  ];
+      buttons: <Button onClick={onBack}>Back</Button>,
+    },
+  ]
 
   return (
     <Row justifyContent="center">
@@ -223,7 +223,9 @@ const RoundCreationStepper = ( {categories} ) => {
             <Stepper.Label>Pick new round type</Stepper.Label>
           </Stepper.Step>
           <Stepper.Step key="step-2">
-            <Stepper.Label>Add round questions, answers, and time limit</Stepper.Label>
+            <Stepper.Label>
+              Add round questions, answers, and time limit
+            </Stepper.Label>
           </Stepper.Step>
           <Stepper.Step key="step-3">
             <Stepper.Label>Verify round properties</Stepper.Label>
@@ -240,11 +242,8 @@ const RoundCreationStepper = ( {categories} ) => {
         )}
       </Col>
     </Row>
-  );
-};
-
-
-
+  )
+}
 
 const Round = ({ round }) => {
   switch (round.__typename) {
@@ -317,7 +316,7 @@ const RoundTypes = ({ categories }) => (
   </Tiles>
 )
 
-const AddRoundTab = ( {categories} ) => (
+const AddRoundTab = ({ categories }) => (
   <TabPanel item="add-round">
     <Grid>
       <Row>
@@ -326,7 +325,7 @@ const AddRoundTab = ( {categories} ) => (
         </Col>
       </Row>
       <br />
-      <RoundCreationStepper categories={SAMPLE_ROUND_TYPES}/>
+      <RoundCreationStepper categories={SAMPLE_ROUND_TYPES} />
     </Grid>
   </TabPanel>
 )

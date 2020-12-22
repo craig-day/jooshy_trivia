@@ -21,9 +21,9 @@ import { gql, useQuery } from '@apollo/client'
 import { Col, Row } from '@zendeskgarden/react-grid'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 import { Button } from '@zendeskgarden/react-buttons'
-import Summary from './manage/Summary'
-import Teams from './manage/Teams'
-import Questions from './manage/Questions'
+import Summary from '../admin/summary/Summary'
+import Teams from '../admin/teams/Teams'
+import Questions from '../admin/questions/Questions'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
