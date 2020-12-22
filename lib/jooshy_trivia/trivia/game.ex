@@ -32,7 +32,7 @@ defmodule JooshyTrivia.Trivia.Game do
   def changeset(game, attrs) do
     game
     |> cast(attrs, [:code, :name, :starts_at, :max_players])
-    |> validate_required([:name])
+    |> validate_required([:code, :name, :starts_at])
     |> unique_constraint(:code)
   end
 end
