@@ -32,7 +32,7 @@ const RoundTypeIcon = ({ type }) => {
 const RoundTypes = ({ types }) => (
   <Tiles name="round-types" isCentered={false}>
     {List.chunk(types, 3).map((typeChunk, i) => (
-      <React.Fragment key={`new-round-cat-${i}`}>
+      <React.Fragment key={`new-round-type-${i}`}>
         <Row>
           {typeChunk.map((type) => (
             <Col size={4} key={`type-${type.name}`}>
@@ -73,8 +73,6 @@ const StyledContainer = styled.div`
 const RoundCreationStepper = ({ roundTypes }) => {
   const [currentStep, setStep] = useState(0)
 
-  console.log(currentStep)
-
   const onNext = () => setStep(currentStep + 1)
   const onBack = () => setStep(currentStep - 1)
 
@@ -100,28 +98,27 @@ const RoundCreationStepper = ({ roundTypes }) => {
 
   return (
     <Row justifyContent="center">
-      <Col sm={10} textAlign="center">
+      <Col textAlign="center">
         <Stepper activeIndex={currentStep} isHorizontal>
-          <Stepper.Step key="step-1">
+          <Stepper.Step>
             <Stepper.Label>Pick new round type</Stepper.Label>
           </Stepper.Step>
-          <Stepper.Step key="step-2">
+          <Stepper.Step>
             <Stepper.Label>
               Add round questions, answers, and time limit
             </Stepper.Label>
           </Stepper.Step>
-          <Stepper.Step key="step-3">
+          <Stepper.Step>
             <Stepper.Label>Verify round properties</Stepper.Label>
           </Stepper.Step>
         </Stepper>
-        {allSteps.map(
-          (step, index) =>
-            index === currentStep && (
-              <StyledContainer key={index}>
-                {step.content}
-                <StyledButtons>{step.buttons}</StyledButtons>
-              </StyledContainer>
-            )
+        {allSteps.map((step, index) =>
+          index === currentStep ? (
+            <StyledContainer key={`step-${index + 1}`}>
+              {step.content}
+              <StyledButtons>{step.buttons}</StyledButtons>
+            </StyledContainer>
+          ) : null
         )}
       </Col>
     </Row>
