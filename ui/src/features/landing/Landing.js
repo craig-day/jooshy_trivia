@@ -14,24 +14,12 @@ const Mode = {
 const CreateOrJoin = ({ onClickCreate, onClickJoin }) => (
   <Row alignItems="center">
     <Col isStretched>
-      <Button
-        style={{ fontSize: 'larger' }}
-        size="large"
-        isPrimary
-        isStretched
-        onClick={onClickCreate}
-      >
+      <Button isPrimary isStretched onClick={onClickCreate}>
         Create Game
       </Button>
     </Col>
     <Col isStretched>
-      <Button
-        style={{ fontSize: 'larger' }}
-        size="large"
-        isPrimary
-        isStretched
-        onClick={onClickJoin}
-      >
+      <Button isPrimary isStretched onClick={onClickJoin}>
         Join Game
       </Button>
     </Col>
@@ -69,13 +57,7 @@ const PrimaryLayer = (props) => {
 const Manage = ({ onClickManage }) => (
   <Row alignItems="center">
     <Col>
-      <Button
-        style={{ fontSize: 'larger' }}
-        size="large"
-        isStretched
-        isBasic
-        onClick={onClickManage}
-      >
+      <Button isStretched isBasic onClick={onClickManage}>
         Manage Game
       </Button>
     </Col>
@@ -86,7 +68,6 @@ const Submit = ({ isDisabled, onClickSubmit, onClickCancel }) => (
   <Row>
     <Col isStretched>
       <Button
-        size="large"
         isStretched
         isPrimary
         onClick={onClickSubmit}
@@ -97,7 +78,6 @@ const Submit = ({ isDisabled, onClickSubmit, onClickCancel }) => (
     </Col>
     <Col isStretched>
       <Button
-        size="large"
         isStretched
         isBasic
         isDanger

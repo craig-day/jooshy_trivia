@@ -57,7 +57,6 @@ export const Create = () => {
               <Col>
                 <Field>
                   <Label>Start Time</Label>
-                  <Hint>Optional</Hint>
                   <Input
                     disabled={pending}
                     type="datetime-local"
