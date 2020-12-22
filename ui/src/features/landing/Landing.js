@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Button } from '@zendeskgarden/react-buttons'
-import { Field, Input } from '@zendeskgarden/react-forms'
+import { Field, Input, Label } from '@zendeskgarden/react-forms'
 import { useHistory } from 'react-router-dom'
 
 const Mode = {
@@ -26,14 +26,35 @@ const CreateOrJoin = ({ onClickCreate, onClickJoin }) => (
   </Row>
 )
 const CodeInput = ({ value, onChange }) => (
+  <Field>
+    <Label>Code</Label>
+    <Input value={value} onChange={(e) => onChange(e.target.value)} />
+  </Field>
+)
+
+const JoinInput = ({ code, name, onCodeChange, onNameChange }) => (
   <Row alignItems="center">
     <Col>
+      <CodeInput value={code} onChange={onCodeChange} />
+    </Col>
+    <Col>
       <Field>
-        <Input
-          placeholder="Code"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-        />
+        <Label>Name</Label>
+        <Input value={name} onChange={onNameChange} />
+      </Field>
+    </Col>
+  </Row>
+)
+
+const ManageInput = ({ code, auth, onCodeChange, onAuthChange }) => (
+  <Row alignItems="center">
+    <Col>
+      <CodeInput value={code} onChange={onCodeChange} />
+    </Col>
+    <Col>
+      <Field>
+        <Label>Passcode</Label>
+        <Input value={auth} onChange={onAuthChange} />
       </Field>
     </Col>
   </Row>
@@ -42,8 +63,23 @@ const CodeInput = ({ value, onChange }) => (
 const PrimaryLayer = (props) => {
   switch (props.mode) {
     case Mode.Joining:
+      return (
+        <JoinInput
+          code={props.code}
+          name={props.name}
+          onCodeChange={props.onCodeChange}
+          onNameChange={props.onNameChange}
+        />
+      )
     case Mode.Managing:
-      return <CodeInput value={props.code} onChange={props.onCodeChange} />
+      return (
+        <ManageInput
+          code={props.code}
+          auth={props.auth}
+          onCodeChange={props.onCodeChange}
+          onAuthChange={props.onAuthChange}
+        />
+      )
     default:
       return (
         <CreateOrJoin
@@ -112,6 +148,8 @@ export const Landing = () => {
   const history = useHistory()
   const [mode, setMode] = useState(Mode.Default)
   const [code, setCode] = useState('')
+  const [name, setName] = useState('')
+  const [auth, setAuth] = useState('')
 
   const onClickCreate = () => {
     history.push('/create')
@@ -123,10 +161,6 @@ export const Landing = () => {
 
   const onClickManage = () => {
     setMode(Mode.Managing)
-  }
-
-  const onCodeChange = (value) => {
-    setCode(value)
   }
 
   const onSubmitManage = () => {
@@ -146,7 +180,11 @@ export const Landing = () => {
             <PrimaryLayer
               mode={mode}
               code={code}
-              onCodeChange={onCodeChange}
+              name={name}
+              auth={auth}
+              onCodeChange={setCode}
+              onNameChange={setName}
+              onAuthChange={setAuth}
               onClickCreate={onClickCreate}
               onClickJoin={onClickJoin}
             />
