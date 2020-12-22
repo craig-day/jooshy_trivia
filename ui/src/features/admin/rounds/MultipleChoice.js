@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Field, Label, Radio } from '@zendeskgarden/react-forms'
-import { MD, XXL } from '@zendeskgarden/react-typography'
+import { MD } from '@zendeskgarden/react-typography'
 import RoundHeader from './RoundHeader'
 
 const MultipleChoiceAnswers = (props) => {

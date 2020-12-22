@@ -1,5 +1,10 @@
 import './App.css'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from 'react-router-dom'
 import {
   ApolloClient,
   ApolloProvider,
@@ -49,6 +54,7 @@ const App = () => (
             render={({ match }) => <JoinGame code={match.params.code} />}
           />
           <Route path="/join" component={JoinGame} />
+          <Route path="/game//manage" render={() => <Redirect to="/" />} />
           <Route
             path="/game/:code/manage"
             render={({ match }) => <EditGame code={match.params.code} />}

@@ -74,16 +74,18 @@ const MainContent = ({ loading, url, game }) => {
 }
 
 export const Edit = ({ code }) => {
-  const { loading, data } = useQuery(GET_GAME, {
+  const { loading, data, error } = useQuery(GET_GAME, {
     variables: { code },
   })
 
-  const [currentNav, setCurrentNav] = useState('')
   const history = useHistory()
+  const [currentNav, setCurrentNav] = useState('')
   const { url } = useRouteMatch()
   const {
     location: { pathname },
   } = history
+
+  console.log(error.extraInfo)
 
   const questionUrlPattern = new RegExp(`${url}/questions`)
 
@@ -108,6 +110,10 @@ export const Edit = ({ code }) => {
       default:
         history.push(`/game/${code}/manage`)
     }
+  }
+
+  const onClickExit = () => {
+    history.push('/')
   }
 
   return (
@@ -150,7 +156,7 @@ export const Edit = ({ code }) => {
                 <XXXL>{data?.gameByCode?.name}</XXXL>
               </Col>
               <Col textAlign="end" size={1} style={{ padding: 0 }}>
-                <Button>
+                <Button onClick={onClickExit}>
                   <Button.StartIcon>
                     <ExitIcon />
                   </Button.StartIcon>
