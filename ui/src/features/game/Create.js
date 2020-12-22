@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
-import { Field, Label, Input, Hint } from '@zendeskgarden/react-forms'
+import { Field, Label, Input, Hint, Message } from '@zendeskgarden/react-forms'
 import { Button } from '@zendeskgarden/react-buttons'
 
 const CREATE_GAME = gql`
@@ -18,15 +18,24 @@ export const Create = () => {
   const [startsAt, setStartsAt] = useState('')
   const [maxPlayers, setMaxPlayers] = useState('')
   const [pending, setPending] = useState(false)
+  const [errors, setErrors] = useState({})
   const history = useHistory()
   const [createGame] = useMutation(CREATE_GAME)
 
   const onClickCreate = () => {
     setPending(true)
 
-    const variables = { name }
+    const variables = { name, startsAt }
+    const validationErrors = {}
 
-    if (startsAt !== '') variables.startsAt = startsAt
+    if (!name) validationErrors.name = 'Name is required'
+    if (!startsAt) validationErrors.startsAt = 'Start time is required'
+
+    if (Object.entries(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setPending(false)
+      return
+    }
 
     if (maxPlayers > 0) variables.maxPlayers = Number(maxPlayers)
 
@@ -48,7 +57,11 @@ export const Create = () => {
                     disabled={pending}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    validation={errors?.name ? 'error' : undefined}
                   />
+                  {errors?.name ? (
+                    <Message validation="error">{errors.name}</Message>
+                  ) : null}
                 </Field>
               </Col>
             </Row>
@@ -62,7 +75,11 @@ export const Create = () => {
                     type="datetime-local"
                     value={startsAt}
                     onChange={(e) => setStartsAt(e.target.value)}
+                    validation={errors?.startsAt ? 'error' : undefined}
                   />
+                  {errors?.startsAt ? (
+                    <Message validation="error">{errors.startsAt}</Message>
+                  ) : null}
                 </Field>
               </Col>
             </Row>
