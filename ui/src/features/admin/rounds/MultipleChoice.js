@@ -96,7 +96,7 @@ export const MultipleChoice = ({ name, description, questions }) => {
           <Paragraph>{description}</Paragraph>
         </Col>
       </Row>
-      <br />
+      <hr />
       <br />
       <MultipleChoiceQuestions
         questions={questions}

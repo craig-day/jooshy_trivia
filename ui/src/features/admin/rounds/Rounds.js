@@ -12,7 +12,7 @@ const tabId = (round) => `round-${round.number}`
 const ExistingRounds = ({ rounds }) =>
   rounds.map((round) => (
     <TabPanel key={tabId(round)} item={tabId(round)}>
-      <Round round={round} {...round} />
+      <Round round={round} />
     </TabPanel>
   ))
 
