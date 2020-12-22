@@ -2,20 +2,12 @@ import React, { useState } from 'react'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
-import styled from 'styled-components'
-import { Stepper } from '@zendeskgarden/react-accordions'
-import { Button } from '@zendeskgarden/react-buttons'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
-import { Tiles, Field, Label, Radio } from '@zendeskgarden/react-forms'
+import { Field, Label, Radio } from '@zendeskgarden/react-forms'
 import { MD, Span, XXL } from '@zendeskgarden/react-typography'
 import { ReactComponent as AddIcon } from '@zendeskgarden/svg-icons/src/16/plus-fill.svg'
-import { ReactComponent as BulletListIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-stroke.svg'
-import { ReactComponent as RecordIcon } from '@zendeskgarden/svg-icons/src/16/record-fill.svg'
-import { ReactComponent as MusicIcon } from '@zendeskgarden/svg-icons/src/16/volume-unmuted-fill.svg'
-import { ReactComponent as SequenceIcon } from '@zendeskgarden/svg-icons/src/16/list-number-stroke.svg'
-import { ReactComponent as ImageIcon } from '@zendeskgarden/svg-icons/src/16/image-fill.svg'
 import { SAMPLE_GAME, SAMPLE_ROUND_TYPES } from '../fakeData'
-import * as List from '../../../utils/List'
+import NewRound from '../rounds/NewRound'
 
 const tabId = (round) => `round-${round.number}`
 
@@ -169,82 +161,6 @@ const MultipleChoice = ({ name, description, questions }) => {
   )
 }
 
-const StyledButtons = styled.div`
-  margin-top: ${(p) => p.theme.space.sm};
-  padding: ${(p) => p.theme.shadowWidths.md};
-
-  & > button {
-    margin-${(p) => (p.theme.rtl ? 'right' : 'left')}: ${(p) =>
-  p.theme.space.base * 3}px;
-
-    &:first-child {
-      margin-${(p) => (p.theme.rtl ? 'right' : 'left')}: 0;
-    }
-  }
-`
-
-const StyledContainer = styled.div`
-  margin: ${(p) => p.theme.space.md} 0 0 0;
-`
-
-const RoundCreationStepper = ({ categories }) => {
-  const [currentStep, setStep] = useState(0)
-
-  console.log(currentStep)
-
-  const onNext = () => setStep(currentStep + 1)
-  const onBack = () => setStep(currentStep - 1)
-
-  const allSteps = [
-    {
-      content: <RoundTypes categories={categories} />,
-      buttons: <Button onClick={onNext}>Next</Button>,
-    },
-    {
-      content: `Add Questions and Answers.`,
-      buttons: (
-        <React.Fragment>
-          <Button onClick={onBack}>Back</Button>
-          <Button onClick={onNext}>Next</Button>
-        </React.Fragment>
-      ),
-    },
-    {
-      content: `Buy clean, hearty, disease-free seeds. Most seed from reliable seed companies will meet these specifications.`,
-      buttons: <Button onClick={onBack}>Back</Button>,
-    },
-  ]
-
-  return (
-    <Row justifyContent="center">
-      <Col sm={10} textAlign="center">
-        <Stepper activeIndex={currentStep} isHorizontal>
-          <Stepper.Step key="step-1">
-            <Stepper.Label>Pick new round type</Stepper.Label>
-          </Stepper.Step>
-          <Stepper.Step key="step-2">
-            <Stepper.Label>
-              Add round questions, answers, and time limit
-            </Stepper.Label>
-          </Stepper.Step>
-          <Stepper.Step key="step-3">
-            <Stepper.Label>Verify round properties</Stepper.Label>
-          </Stepper.Step>
-        </Stepper>
-        {allSteps.map(
-          (step, index) =>
-            index === currentStep && (
-              <StyledContainer key={index}>
-                {step.content}
-                <StyledButtons>{step.buttons}</StyledButtons>
-              </StyledContainer>
-            )
-        )}
-      </Col>
-    </Row>
-  )
-}
-
 const Round = ({ round }) => {
   switch (round.__typename) {
     case 'PickOne':
@@ -276,57 +192,9 @@ const TabPanels = ({ rounds }) =>
     </TabPanel>
   ))
 
-const RoundTypeIcon = ({ category }) => {
-  switch (category) {
-    case 'PickOne':
-      return <RecordIcon />
-    case 'MultipleChoice':
-      return <BulletListIcon />
-    case 'Music':
-      return <MusicIcon />
-    case 'Sequence':
-      return <SequenceIcon />
-    case 'Image':
-      return <ImageIcon />
-    default:
-      return null
-  }
-}
-
-const RoundTypes = ({ categories }) => (
-  <Tiles name="round-types" isCentered={false}>
-    {List.chunk(categories, 3).map((categoryChunk, i) => (
-      <React.Fragment key={`new-round-cat-${i}`}>
-        <Row>
-          {categoryChunk.map((category) => (
-            <Col size={4} key={`category-${category.name}`}>
-              <Tiles.Tile value={category.name}>
-                <Tiles.Icon>
-                  <RoundTypeIcon category={category.name} />
-                </Tiles.Icon>
-                <Tiles.Label>{category.name}</Tiles.Label>
-                <Tiles.Description>{category.description}</Tiles.Description>
-              </Tiles.Tile>
-            </Col>
-          ))}
-        </Row>
-        <br />
-      </React.Fragment>
-    ))}
-  </Tiles>
-)
-
-const AddRoundTab = ({ categories }) => (
+const AddRoundTab = ({ roundTypes }) => (
   <TabPanel item="add-round">
-    <Grid>
-      <Row>
-        <Col>
-          <XXL>Add New Round</XXL>
-        </Col>
-      </Row>
-      <br />
-      <RoundCreationStepper categories={SAMPLE_ROUND_TYPES} />
-    </Grid>
+    <NewRound roundTypes={roundTypes} />
   </TabPanel>
 )
 
@@ -370,7 +238,7 @@ export const Questions = () => {
         </Tab>
       </TabList>
       <TabPanels rounds={game.rounds} />
-      <AddRoundTab />
+      <AddRoundTab roundTypes={SAMPLE_ROUND_TYPES} />
     </Tabs>
   )
 }
