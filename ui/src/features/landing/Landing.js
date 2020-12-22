@@ -60,7 +60,7 @@ const JoinInput = ({ code, name, onCodeChange, onNameChange, errors }) => (
         <Label>Name</Label>
         <Input
           value={name}
-          onChange={onNameChange}
+          onChange={(e) => onNameChange(e.target.value)}
           validation={errors?.name ? 'error' : undefined}
         />
         <FieldMessage name="name" errors={errors} />
@@ -79,7 +79,7 @@ const ManageInput = ({ code, auth, onCodeChange, onAuthChange, errors }) => (
         <Label>Passcode</Label>
         <Input
           value={auth}
-          onChange={onAuthChange}
+          onChange={(e) => onAuthChange(e.target.value)}
           validation={errors?.auth ? 'error' : undefined}
         />
         <FieldMessage name="auth" errors={errors} />
@@ -159,7 +159,12 @@ const Submit = ({ isDisabled, onClickSubmit, onClickCancel }) => (
 const SecondaryLayer = (props) => {
   switch (props.mode) {
     case Mode.Joining:
-      return <Submit onClickSubmit={() => {}} onClickCancel={props.onCancel} />
+      return (
+        <Submit
+          onClickSubmit={props.onSubmitJoin}
+          onClickCancel={props.onCancel}
+        />
+      )
     case Mode.Managing:
       return (
         <Submit
@@ -196,6 +201,22 @@ export const Landing = () => {
     setMode(Mode.Managing)
   }
 
+  const onSubmitJoin = () => {
+    setMode(Mode.Loading)
+
+    const validationErrors = {}
+
+    if (!code) validationErrors.code = 'Required'
+    if (!name) validationErrors.name = 'Required'
+
+    if (Object.entries(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setMode(Mode.Joining)
+    } else {
+      // TODO: join the game
+    }
+  }
+
   const onSubmitManage = () => {
     setMode(Mode.Loading)
 
@@ -213,6 +234,7 @@ export const Landing = () => {
   }
 
   const onCancel = () => {
+    setErrors({})
     setMode(Mode.Default)
   }
 
@@ -243,6 +265,7 @@ export const Landing = () => {
             <SecondaryLayer
               mode={mode}
               onClickManage={onClickManage}
+              onSubmitJoin={onSubmitJoin}
               onSubmitManage={onSubmitManage}
               onCancel={onCancel}
             />

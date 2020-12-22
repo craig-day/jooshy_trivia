@@ -85,8 +85,6 @@ export const Edit = ({ code }) => {
     location: { pathname },
   } = history
 
-  console.log(error.extraInfo)
-
   const questionUrlPattern = new RegExp(`${url}/questions`)
 
   const isSelectedNav = (nav) => {
