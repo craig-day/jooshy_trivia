@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 import { Tab, TabList, TabPanel, Tabs } from '@zendeskgarden/react-tabs'
 import { Well, Title, Paragraph } from '@zendeskgarden/react-notifications'
+import styled from 'styled-components'
+import { Stepper } from '@zendeskgarden/react-accordions'
+import { Button } from '@zendeskgarden/react-buttons'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Tiles, Field, Label, Radio } from '@zendeskgarden/react-forms'
 import { MD, Span, XXL } from '@zendeskgarden/react-typography'
@@ -164,8 +167,84 @@ const MultipleChoice = ({ name, description, questions }) => {
       </Row>
     </Grid>
   )
->>>>>>> 0c3d422... Changed Questions.js
 }
+
+
+const StyledButtons = styled.div`
+  margin-top: ${p => p.theme.space.sm};
+  padding: ${p => p.theme.shadowWidths.md};
+
+  & > button {
+    margin-${p => (p.theme.rtl ? 'right' : 'left')}: ${p => p.theme.space.base * 3}px;
+
+    &:first-child {
+      margin-${p => (p.theme.rtl ? 'right' : 'left')}: 0;
+    }
+  }
+`;
+
+const StyledContainer = styled.div`
+  margin: ${p => p.theme.space.md} 0 0 0;
+`;
+
+const RoundCreationStepper = ( {categories} ) => {
+  const [currentStep, setStep] = useState(0);
+
+  console.log(currentStep)
+
+  const onNext = () => setStep(currentStep + 1);
+  const onBack = () => setStep(currentStep - 1);
+
+  const allSteps = [
+    {
+      content: <RoundTypes categories={categories} />,
+      buttons: <Button onClick={onNext}>Next</Button>
+    },
+    {
+      content: `Add Questions and Answers.`,
+      buttons: (
+        <React.Fragment>
+          <Button onClick={onBack}>Back</Button>
+          <Button onClick={onNext}>Next</Button>
+        </React.Fragment>
+      )
+    },
+    {
+      content: `Buy clean, hearty, disease-free seeds. Most seed from reliable seed companies will meet these specifications.`,
+      buttons: <Button onClick={onBack}>Back</Button>
+    }
+  ];
+
+  return (
+    <Row justifyContent="center">
+      <Col sm={10} textAlign="center">
+        <Stepper activeIndex={currentStep} isHorizontal>
+          <Stepper.Step key="step-1">
+            <Stepper.Label>Pick new round type</Stepper.Label>
+          </Stepper.Step>
+          <Stepper.Step key="step-2">
+            <Stepper.Label>Add round questions, answers, and time limit</Stepper.Label>
+          </Stepper.Step>
+          <Stepper.Step key="step-3">
+            <Stepper.Label>Verify round properties</Stepper.Label>
+          </Stepper.Step>
+        </Stepper>
+        {allSteps.map(
+          (step, index) =>
+            index === currentStep && (
+              <StyledContainer key={index}>
+                {step.content}
+                <StyledButtons>{step.buttons}</StyledButtons>
+              </StyledContainer>
+            )
+        )}
+      </Col>
+    </Row>
+  );
+};
+
+
+
 
 const Round = ({ round }) => {
   switch (round.__typename) {
@@ -238,20 +317,16 @@ const RoundTypes = ({ categories }) => (
   </Tiles>
 )
 
-const AddRoundTab = () => (
+const AddRoundTab = ( {categories} ) => (
   <TabPanel item="add-round">
     <Grid>
       <Row>
-        <Col size={8}>
-          <Row>
-            <Col>
-              <XXL>New Round</XXL>
-            </Col>
-          </Row>
-          <br />
-          <RoundTypes categories={SAMPLE_ROUND_TYPES} />
+        <Col>
+          <XXL>Add New Round</XXL>
         </Col>
       </Row>
+      <br />
+      <RoundCreationStepper categories={SAMPLE_ROUND_TYPES}/>
     </Grid>
   </TabPanel>
 )
