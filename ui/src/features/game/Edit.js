@@ -24,6 +24,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import Summary from '../admin/summary/Summary'
 import Teams from '../admin/teams/Teams'
 import Rounds from '../admin/rounds/Rounds'
+import { SAMPLE_GAME } from '../admin/fakeData'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
@@ -83,7 +84,7 @@ const MainContent = ({ loading, url, game }) => {
 }
 
 export const Edit = ({ code }) => {
-  const { loading, data, error } = useQuery(GET_GAME, {
+  const { loading, data } = useQuery(GET_GAME, {
     variables: { code },
   })
 
@@ -151,7 +152,7 @@ export const Edit = ({ code }) => {
           <NavItemIcon>
             <QuestionIcon />
           </NavItemIcon>
-          <NavItemText>Questions</NavItemText>
+          <NavItemText>Rounds</NavItemText>
         </NavItem>
       </Nav>
       <Body>
@@ -175,7 +176,7 @@ export const Edit = ({ code }) => {
         </Header>
         <Content>
           <Main style={{ padding: 28 }}>
-            <MainContent loading={loading} url={url} game={data?.gameByCode} />
+            <MainContent loading={loading} url={url} game={SAMPLE_GAME.game} />
           </Main>
         </Content>
       </Body>
