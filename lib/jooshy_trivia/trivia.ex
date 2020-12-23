@@ -6,9 +6,7 @@ defmodule JooshyTrivia.Trivia do
   import Ecto.Query, warn: false
   alias JooshyTrivia.Repo
 
-  alias JooshyTrivia.Trivia.Game
-  alias JooshyTrivia.Trivia.User
-  alias JooshyTrivia.Trivia.Session
+  alias JooshyTrivia.Trivia.{Game, Session, Team, User}
 
   def data, do: Dataloader.Ecto.new(Repo, query: &query/2)
 
@@ -270,6 +268,25 @@ defmodule JooshyTrivia.Trivia do
       session
       |> Ecto.assoc(:team)
       |> Repo.one()
+    end
+  end
+
+  def get_game_by_team(%Team{} = team) do
+    if Ecto.assoc_loaded?(team.game) do
+      team.game
+    else
+      team
+      |> Ecto.assoc(:game)
+      |> Repo.one()
+    end
+  end
+
+  def team_join_link(%Team{} = team) do
+    with %Game{} = game <- get_game_by_team(team) do
+      [game.id, team.id]
+      |> Enum.join("|")
+      |> Base.url_encode64()
+      |> String.replace_prefix("", "/join/")
     end
   end
 end

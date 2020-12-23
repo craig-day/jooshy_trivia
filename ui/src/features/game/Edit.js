@@ -33,6 +33,15 @@ const GET_GAME = gql`
       name
       startsAt
       maxPlayers
+      teams {
+        id
+        name
+        joinLink
+        members {
+          id
+          name
+        }
+      }
     }
   }
 `
