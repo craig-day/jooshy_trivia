@@ -1,5 +1,7 @@
 export const SAMPLE_GAME = {
   game: {
+    registeredPlayerCount: 18,
+    startsAt: '2020-12-23T19:00:00-08:00',
     rounds: [
       {
         __typename: 'PickOne',

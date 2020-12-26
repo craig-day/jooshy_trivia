@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import { Button } from '@zendeskgarden/react-buttons'
-import { Field, Input, Label } from '@zendeskgarden/react-forms'
+import { Field, Input, Label, Message } from '@zendeskgarden/react-forms'
 import { useHistory } from 'react-router-dom'
 
 const Mode = {
@@ -25,36 +25,64 @@ const CreateOrJoin = ({ onClickCreate, onClickJoin }) => (
     </Col>
   </Row>
 )
-const CodeInput = ({ value, onChange }) => (
+
+const FieldMessage = ({ errors, name }) => {
+  if (Object.entries(errors).length < 1) {
+    return null
+  } else {
+    return errors[name] ? (
+      <Message validation="error">{errors[name]}</Message>
+    ) : (
+      <Message validation="success" />
+    )
+  }
+}
+
+const CodeInput = ({ value, onChange, errors }) => (
   <Field>
     <Label>Code</Label>
-    <Input value={value} onChange={(e) => onChange(e.target.value)} />
+    <Input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      validation={errors?.code ? 'error' : undefined}
+    />
+    <FieldMessage name="code" errors={errors} />
   </Field>
 )
 
-const JoinInput = ({ code, name, onCodeChange, onNameChange }) => (
+const JoinInput = ({ code, name, onCodeChange, onNameChange, errors }) => (
   <Row alignItems="center">
     <Col>
-      <CodeInput value={code} onChange={onCodeChange} />
+      <CodeInput value={code} onChange={onCodeChange} errors={errors} />
     </Col>
     <Col>
       <Field>
         <Label>Name</Label>
-        <Input value={name} onChange={onNameChange} />
+        <Input
+          value={name}
+          onChange={(e) => onNameChange(e.target.value)}
+          validation={errors?.name ? 'error' : undefined}
+        />
+        <FieldMessage name="name" errors={errors} />
       </Field>
     </Col>
   </Row>
 )
 
-const ManageInput = ({ code, auth, onCodeChange, onAuthChange }) => (
+const ManageInput = ({ code, auth, onCodeChange, onAuthChange, errors }) => (
   <Row alignItems="center">
     <Col>
-      <CodeInput value={code} onChange={onCodeChange} />
+      <CodeInput value={code} onChange={onCodeChange} errors={errors} />
     </Col>
     <Col>
       <Field>
         <Label>Passcode</Label>
-        <Input value={auth} onChange={onAuthChange} />
+        <Input
+          value={auth}
+          onChange={(e) => onAuthChange(e.target.value)}
+          validation={errors?.auth ? 'error' : undefined}
+        />
+        <FieldMessage name="auth" errors={errors} />
       </Field>
     </Col>
   </Row>
@@ -67,6 +95,7 @@ const PrimaryLayer = (props) => {
         <JoinInput
           code={props.code}
           name={props.name}
+          errors={props.errors}
           onCodeChange={props.onCodeChange}
           onNameChange={props.onNameChange}
         />
@@ -76,6 +105,7 @@ const PrimaryLayer = (props) => {
         <ManageInput
           code={props.code}
           auth={props.auth}
+          errors={props.errors}
           onCodeChange={props.onCodeChange}
           onAuthChange={props.onAuthChange}
         />
@@ -129,7 +159,12 @@ const Submit = ({ isDisabled, onClickSubmit, onClickCancel }) => (
 const SecondaryLayer = (props) => {
   switch (props.mode) {
     case Mode.Joining:
-      return <Submit onClickSubmit={() => {}} onClickCancel={props.onCancel} />
+      return (
+        <Submit
+          onClickSubmit={props.onSubmitJoin}
+          onClickCancel={props.onCancel}
+        />
+      )
     case Mode.Managing:
       return (
         <Submit
@@ -150,25 +185,56 @@ export const Landing = () => {
   const [code, setCode] = useState('')
   const [name, setName] = useState('')
   const [auth, setAuth] = useState('')
+  const [errors, setErrors] = useState({})
 
   const onClickCreate = () => {
     history.push('/create')
   }
 
   const onClickJoin = () => {
+    setErrors({})
     setMode(Mode.Joining)
   }
 
   const onClickManage = () => {
+    setErrors({})
     setMode(Mode.Managing)
+  }
+
+  const onSubmitJoin = () => {
+    setMode(Mode.Loading)
+
+    const validationErrors = {}
+
+    if (!code) validationErrors.code = 'Required'
+    if (!name) validationErrors.name = 'Required'
+
+    if (Object.entries(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setMode(Mode.Joining)
+    } else {
+      // TODO: join the game
+    }
   }
 
   const onSubmitManage = () => {
     setMode(Mode.Loading)
-    history.push(`/game/${code}/manage`)
+
+    const validationErrors = {}
+
+    if (!code) validationErrors.code = 'Required'
+    if (!auth) validationErrors.auth = 'Required'
+
+    if (Object.entries(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      setMode(Mode.Managing)
+    } else {
+      history.push(`/game/${code}/manage`)
+    }
   }
 
   const onCancel = () => {
+    setErrors({})
     setMode(Mode.Default)
   }
 
@@ -182,6 +248,7 @@ export const Landing = () => {
               code={code}
               name={name}
               auth={auth}
+              errors={errors}
               onCodeChange={setCode}
               onNameChange={setName}
               onAuthChange={setAuth}
@@ -198,6 +265,7 @@ export const Landing = () => {
             <SecondaryLayer
               mode={mode}
               onClickManage={onClickManage}
+              onSubmitJoin={onSubmitJoin}
               onSubmitManage={onSubmitManage}
               onCancel={onCancel}
             />

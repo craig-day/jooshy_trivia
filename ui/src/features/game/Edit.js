@@ -24,6 +24,7 @@ import { Button } from '@zendeskgarden/react-buttons'
 import Summary from '../admin/summary/Summary'
 import Teams from '../admin/teams/Teams'
 import Rounds from '../admin/rounds/Rounds'
+import { SAMPLE_GAME } from '../admin/fakeData'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
@@ -33,6 +34,15 @@ const GET_GAME = gql`
       name
       startsAt
       maxPlayers
+      teams {
+        id
+        name
+        joinLink
+        members {
+          id
+          name
+        }
+      }
     }
   }
 `
@@ -78,8 +88,8 @@ export const Edit = ({ code }) => {
     variables: { code },
   })
 
-  const [currentNav, setCurrentNav] = useState('')
   const history = useHistory()
+  const [currentNav, setCurrentNav] = useState('')
   const { url } = useRouteMatch()
   const {
     location: { pathname },
@@ -110,6 +120,10 @@ export const Edit = ({ code }) => {
     }
   }
 
+  const onClickExit = () => {
+    history.push('/')
+  }
+
   return (
     <Chrome isFluid>
       <Nav isExpanded>
@@ -138,7 +152,7 @@ export const Edit = ({ code }) => {
           <NavItemIcon>
             <QuestionIcon />
           </NavItemIcon>
-          <NavItemText>Questions</NavItemText>
+          <NavItemText>Rounds</NavItemText>
         </NavItem>
       </Nav>
       <Body>
@@ -150,7 +164,7 @@ export const Edit = ({ code }) => {
                 <XXXL>{data?.gameByCode?.name}</XXXL>
               </Col>
               <Col textAlign="end" size={1} style={{ padding: 0 }}>
-                <Button>
+                <Button onClick={onClickExit}>
                   <Button.StartIcon>
                     <ExitIcon />
                   </Button.StartIcon>
@@ -162,7 +176,7 @@ export const Edit = ({ code }) => {
         </Header>
         <Content>
           <Main style={{ padding: 28 }}>
-            <MainContent loading={loading} url={url} game={data?.gameByCode} />
+            <MainContent loading={loading} url={url} game={SAMPLE_GAME.game} />
           </Main>
         </Content>
       </Body>

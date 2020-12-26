@@ -1,7 +1,7 @@
 defmodule JooshyTrivia.Trivia.Game do
   use Ecto.Schema
   import Ecto.Changeset
-  alias JooshyTrivia.Trivia.Session
+  alias JooshyTrivia.Trivia.{Session, Team}
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -16,7 +16,8 @@ defmodule JooshyTrivia.Trivia.Game do
     timestamps()
 
     has_many :sessions, Session
-    has_many :teams, through: [:sessions, :team]
+    has_many :teams, Team
+    # has_many :teams, through: [:sessions, :team]
     has_many :players, through: [:sessions, :user]
   end
 
