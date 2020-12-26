@@ -116,10 +116,12 @@ export const SAMPLE_GAME = {
     teams: [
       {
         name: 'Team Charmander',
+        joinLink: '/join/qowiuebf',
         members: [{ name: 'Craig' }, { name: 'Adam' }, { name: 'Ana' }],
       },
       {
         name: 'Pikachu',
+        joinLink: '/join/qpwibuv',
         members: [
           { name: 'Brock' },
           { name: 'Ash' },
@@ -129,10 +131,12 @@ export const SAMPLE_GAME = {
       },
       {
         name: 'Squirttle',
+        joinLink: '/join/piuqbervq',
         members: [{ name: 'Blue' }],
       },
       {
         name: 'Eevee',
+        joinLink: '/join/aoviwn',
         members: [
           { name: 'Jolteon' },
           { name: 'Flareon' },
