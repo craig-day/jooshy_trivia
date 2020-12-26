@@ -82,25 +82,19 @@ const AddRoundQuestions = ({ type }) => {
 	}
 }
 
-const NewMultipleChoiceAnswer = ({ letter, value }) => (
+const NewMultipleChoiceAnswer = ({ letter, value, onChangeAnswer }) => (
   <Row justifyContent="center">
-  	<Col sm={5}>
+  	<Col>
 			<InputGroup>
-				<Input value={value}/>
+				<Input value={value} onChange={(e) => onChangeAnswer(letter, e.target.value)}/>
+        <Radio
+          name={value}
+          value={value}
+        >
+          <Label>{`${letter}.`}</Label>
+        </Radio>
 			</InputGroup>
 		</Col>
-    <Col size="auto">
-      <div role="group" aria-label="Choose a plant lifecycle">
-        <Field>
-          <Radio
-            name={value}
-            value={value}
-          >
-            <Label>{`${letter}. ${value}`}</Label>
-          </Radio>
-        </Field>
-      </div>
-    </Col>
   </Row>
 )
 
@@ -116,12 +110,17 @@ const NewMultipleChoiceQuestion = () => {
   } 
 
   function onClickNewAnswer() {
-  	/* figure out next letter and add an entry to answers + setAnswers. name[key]=something */
   	const answerKeys = Object.keys(answers)
   	const newKey = nextCharacter(answerKeys[answerKeys.length - 1])
   	const newAnswers = { ...answers}
   	newAnswers[newKey] = ''
   	setAnswers(newAnswers) 
+  }
+
+  function onChangeAnswer(letter, value) {
+  	const newAnswers = {...answers}
+  	newAnswers[letter] = value
+  	setAnswers(newAnswers)
   }
 
 	return (
@@ -142,10 +141,11 @@ const NewMultipleChoiceQuestion = () => {
 			  <Field>
 				<Label>Answers:</Label>
 		  		{ Object.entries(answers).map( ([letter, value]) => 
-		  				<NewMultipleChoiceAnswer letter={letter} value={value}/>) }
+		  				<NewMultipleChoiceAnswer letter={letter} value={value} onChangeAnswer={onChangeAnswer}/>) }
 			  </Field>
 			</Col>
-		  </Row> 
+			</Row>
+			<br />
 
 		  <Row justifyContent="center">
 			<Col sm={5}>
