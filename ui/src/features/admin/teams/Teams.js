@@ -68,7 +68,7 @@ const TeamChunk = ({ teams, onClickCopy }) => {
 }
 
 const TeamRows = ({ teams, onClickCopy }) =>
-  List.chunk(teams, 3).map((teamsChunk, i) => (
+  List.chunk(teams, 4).map((teamsChunk, i) => (
     <React.Fragment key={`team-row-${i}`}>
       <Row>
         <TeamChunk teams={teamsChunk} onClickCopy={onClickCopy} />
