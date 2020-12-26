@@ -9,6 +9,8 @@ export const SAMPLE_GAME = {
         name: 'Pick One',
         description:
           'Select the item in the pair better associated with each question.',
+        questionCount: 10,
+        points: 20,
         categories: [
           {
             title: 'RED or BLUE',
@@ -47,8 +49,10 @@ export const SAMPLE_GAME = {
       {
         __typename: 'MultipleChoice',
         number: 2,
-        name: 'Some Multiple Choice Thing',
+        name: 'Multiple Choice',
         description: 'Pick the right answer.',
+        questionCount: 20,
+        points: 20,
         questions: [
           {
             prompt: 'Which string is the most common first program',
@@ -71,6 +75,42 @@ export const SAMPLE_GAME = {
             answer: 'Josh',
           },
         ],
+      },
+      {
+        __typename: 'Music',
+        number: 3,
+        name: 'Muzac!',
+        description: 'Identify the song name and artist.',
+        questionCount: 10,
+        points: 20,
+        questions: [],
+      },
+      {
+        __typename: 'Image',
+        number: 4,
+        name: 'Noods!',
+        description: 'Find the similarity within all of the pictures.',
+        questionCount: 8,
+        points: 16,
+        questions: [],
+      },
+      {
+        __typename: 'Sequence',
+        number: 5,
+        name: 'Connections',
+        description: 'Identify the next item in the sequence.',
+        questionCount: 20,
+        points: 40,
+        questions: [],
+      },
+      {
+        __typename: 'Sequence',
+        number: 5,
+        name: 'Order Matters',
+        description: 'Identify the next item in the sequence.',
+        questionCount: 10,
+        points: 30,
+        questions: [],
       },
     ],
     teams: [
