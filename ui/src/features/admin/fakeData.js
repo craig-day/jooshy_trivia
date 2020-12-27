@@ -105,7 +105,7 @@ export const SAMPLE_GAME = {
       },
       {
         __typename: 'Sequence',
-        number: 5,
+        number: 6,
         name: 'Order Matters',
         description: 'Identify the next item in the sequence.',
         questionCount: 10,

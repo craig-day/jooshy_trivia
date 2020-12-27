@@ -82,18 +82,23 @@ const AddRoundQuestions = ({ type }) => {
 	}
 }
 
-const NewMultipleChoiceAnswer = ({ letter, value, onChangeAnswer }) => (
+const NewMultipleChoiceAnswer = ({ letter, value, onChangeAnswer, radioValue, setRadioValue, correctAnswer, setCorrectAnswer }) => (
   <Row justifyContent="center">
   	<Col>
-			<InputGroup>
-				<Input value={value} onChange={(e) => onChangeAnswer(letter, e.target.value)}/>
-        <Radio
-          name={value}
-          value={value}
-        >
-          <Label>{`${letter}.`}</Label>
-        </Radio>
-			</InputGroup>
+			<Input value={value} onChange={(e) => onChangeAnswer(letter, e.target.value)}/>
+	      <Field>
+		      <Radio
+		        name='newQuestion'
+		        value={letter}
+		        checked={correctAnswer === letter}
+		        onChange={(e) => {
+		        	setRadioValue(e.target.value)
+		        	setCorrectAnswer(e.target.value)
+		        }}
+		      >
+		        <Label>{`${letter}.`}</Label>
+		      </Radio>
+	      </Field>
 		</Col>
   </Row>
 )
@@ -102,8 +107,9 @@ const NewMultipleChoiceQuestion = () => {
 	const [question, setQuestion] = useState('')
   const [answers, setAnswers] = useState({a: ''})
   const [correctAnswer, setCorrectAnswer] = useState('')
+  const [radioValue, setRadioValue] = useState('')
 
-  // console.log(Object.keys(answers)[answers.length-1])
+  console.log(correctAnswer, radioValue)
 
   function nextCharacter(c) { 
   	return String.fromCharCode(c.charCodeAt(0) + 1)
@@ -140,8 +146,15 @@ const NewMultipleChoiceQuestion = () => {
 			<Col sm={5}>
 			  <Field>
 				<Label>Answers:</Label>
-		  		{ Object.entries(answers).map( ([letter, value]) => 
-		  				<NewMultipleChoiceAnswer letter={letter} value={value} onChangeAnswer={onChangeAnswer}/>) }
+		  		{ Object.entries(answers).map( ([letter, value], i) => 
+		  				<NewMultipleChoiceAnswer key={`answer-${i}`}
+		  					letter={letter} 
+		  					value={value} 
+		  					onChangeAnswer={onChangeAnswer} 
+		  					radioValue={radioValue}
+		  					setRadioValue={setRadioValue}
+		  					correctAnswer={correctAnswer}
+		  					setCorrectAnswer={setCorrectAnswer}/>) }
 			  </Field>
 			</Col>
 			</Row>
