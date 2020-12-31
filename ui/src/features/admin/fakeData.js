@@ -12,7 +12,7 @@ export const SAMPLE_GAME = {
           'Select the item in the pair better associated with each question.',
         questionCount: 10,
         points: 20,
-        isActive: true,
+        isActive: false,
         isStarted: false,
         startsAt: new Date(+new Date() + 3 * 1000).toISOString(), // 3 minutes from now
         duration: 720,
@@ -58,7 +58,7 @@ export const SAMPLE_GAME = {
         description: 'Pick the right answer.',
         questionCount: 20,
         points: 20,
-        isActive: false,
+        isActive: true,
         isStarted: false,
         startsIn: null,
         duration: 720,

@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import * as Well from '@zendeskgarden/react-notifications'
 import { Field, InputGroup, Input } from '@zendeskgarden/react-forms'
 import { Button, ButtonGroup } from '@zendeskgarden/react-buttons'
-import styled from 'styled-components'
 import { XL } from '@zendeskgarden/react-typography'
+import QuestionContainer from './QuestionContainer'
 
 const StyledQuestionContainer = styled.div`
   margin-bottom: ${(p) => p.theme.space.sm};
@@ -70,25 +71,16 @@ const Questions = ({ options: [a, b], questions }) =>
     </StyledQuestionContainer>
   ))
 
-const StyledCategoryContainer = styled.div`
-  margin-top: ${(p) => p.theme.space.sm};
-  margin-bottom: ${(p) => p.theme.space.sm};
-`
-
 const Categories = ({ categories }) =>
   categories.map((category, i) => (
-    <StyledCategoryContainer key={`category-${i}`}>
+    <QuestionContainer key={`category-${i}`}>
       <Well.Well>
         <Well.Title style={{ paddingBottom: 10 }}>
           <XL>{category.title}</XL>
         </Well.Title>
-        <Questions
-          options={category.options}
-          questions={category.questions}
-          categoryNumber={i + 1}
-        />
+        <Questions options={category.options} questions={category.questions} />
       </Well.Well>
-    </StyledCategoryContainer>
+    </QuestionContainer>
   ))
 
 export const PickOne = ({ round }) => {
