@@ -121,12 +121,11 @@ const ExitPrompt = ({ visible, setVisible, team }) => {
         <Paragraph>
           You will be able to join again later using the same link.
         </Paragraph>
-        <Paragraph>
-          <TeamJoinLink team={team} hideLabel />
-        </Paragraph>
+        <br />
+        <TeamJoinLink team={team} hideLabel />
       </Modal.Body>
       <Modal.Footer>
-        <Button isPrimary isDanger>
+        <Button isPrimary isDanger onClick={() => history.push('/')}>
           Exit Game
         </Button>
       </Modal.Footer>
