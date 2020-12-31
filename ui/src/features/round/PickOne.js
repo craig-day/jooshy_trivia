@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Grid, Row, Col } from '@zendeskgarden/react-grid'
 import * as Well from '@zendeskgarden/react-notifications'
 import { Field, InputGroup, Input } from '@zendeskgarden/react-forms'
 import { Button, ButtonGroup } from '@zendeskgarden/react-buttons'
@@ -71,8 +70,8 @@ const Questions = ({ options: [a, b], questions }) =>
     </StyledQuestionContainer>
   ))
 
-const Categories = ({ categories }) =>
-  categories.map((category, i) => (
+export const PickOne = ({ round }) =>
+  round.categories.map((category, i) => (
     <QuestionContainer key={`category-${i}`}>
       <Well.Well>
         <Well.Title style={{ paddingBottom: 10 }}>
@@ -82,19 +81,5 @@ const Categories = ({ categories }) =>
       </Well.Well>
     </QuestionContainer>
   ))
-
-export const PickOne = ({ round }) => {
-  if (!round) return null
-
-  return (
-    <Grid>
-      <Row justifyContent="center">
-        <Col xl={8} lg={12}>
-          <Categories categories={round.categories} />
-        </Col>
-      </Row>
-    </Grid>
-  )
-}
 
 export default PickOne

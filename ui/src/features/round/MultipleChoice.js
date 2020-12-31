@@ -1,5 +1,4 @@
 import React from 'react'
-import { Col, Grid, Row } from '@zendeskgarden/react-grid'
 import { LG, XL } from '@zendeskgarden/react-typography'
 import { Field, Label, Radio } from '@zendeskgarden/react-forms'
 import styled from 'styled-components'
@@ -31,8 +30,8 @@ const Question = ({ number, prompt, choices }) => (
   </React.Fragment>
 )
 
-const Questions = ({ questions }) =>
-  questions.map((question, i) => (
+const MultipleChoice = ({ round }) =>
+  round.questions.map((question, i) => (
     <QuestionContainer key={`question-${i + 1}`}>
       <Question
         number={i + 1}
@@ -41,19 +40,5 @@ const Questions = ({ questions }) =>
       />
     </QuestionContainer>
   ))
-
-const MultipleChoice = ({ round }) => {
-  if (!round) return null
-
-  return (
-    <Grid>
-      <Row justifyContent="center">
-        <Col xl={8} lg={12}>
-          <Questions questions={round.questions} />
-        </Col>
-      </Row>
-    </Grid>
-  )
-}
 
 export default MultipleChoice

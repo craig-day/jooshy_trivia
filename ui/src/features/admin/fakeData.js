@@ -92,7 +92,7 @@ export const SAMPLE_GAME = {
         description: 'Identify the song name and artist.',
         questionCount: 10,
         points: 20,
-        isActive: true,
+        isActive: false,
         isStarted: false,
         startsIn: null,
         duration: 720,
@@ -118,11 +118,30 @@ export const SAMPLE_GAME = {
         description: 'Find the similarity within all of the pictures.',
         questionCount: 8,
         points: 16,
-        isActive: false,
+        isActive: true,
         isStarted: false,
         startsIn: null,
         duration: 720,
-        questions: [],
+        questions: [
+          {
+            fileSource: 'https://i.imgur.com/oQR0ZuX.png',
+          },
+          {
+            fileSource: 'https://i.imgur.com/Y1NnYwN.png',
+          },
+          {
+            fileSource: 'https://i.imgur.com/0sU02or.png',
+          },
+          {
+            fileSource: 'https://i.imgur.com/DBM8Rdz.png',
+          },
+          {
+            fileSource: 'https://i.imgur.com/qYhS4q3.png',
+          },
+          {
+            fileSource: 'https://i.imgur.com/Pge7VQk.png',
+          },
+        ],
       },
       {
         __typename: 'Sequence',
