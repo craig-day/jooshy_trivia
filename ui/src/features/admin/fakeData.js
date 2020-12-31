@@ -138,6 +138,12 @@ export const SAMPLE_GAME = {
         questions: [],
       },
     ],
+    currentTeam: {
+      name: 'Team Charmander',
+      joinLink: '/join/qowiuebf',
+      members: [{ name: 'Craig' }, { name: 'Adam' }, { name: 'Ana' }],
+      score: 69,
+    },
     teams: [
       {
         name: 'Team Charmander',

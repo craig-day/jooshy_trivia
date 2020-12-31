@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { gql, useQuery } from '@apollo/client'
+import { useHistory } from 'react-router-dom'
 import {
   Body,
   Chrome,
@@ -10,14 +11,16 @@ import {
   Sidebar,
 } from '@zendeskgarden/react-chrome'
 import { Col, Row } from '@zendeskgarden/react-grid'
-import { Span, LG, XXL, XXXL } from '@zendeskgarden/react-typography'
+import { Span, LG, XXL, XXXL, Paragraph } from '@zendeskgarden/react-typography'
 import { Button } from '@zendeskgarden/react-buttons'
+import * as Modal from '@zendeskgarden/react-modals'
 import { ReactComponent as ExitIcon } from '@zendeskgarden/svg-icons/src/16/exit-fill.svg'
 import styled from 'styled-components'
 import GameLoading from '../../components/GameLoading'
 import RoundTypeIcon from '../../components/RoundTypeIcon'
 import ActiveRound from '../round/ActiveRound'
 import { SAMPLE_GAME } from '../admin/fakeData'
+import TeamJoinLink from '../../components/JoinTeamLink'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
@@ -106,21 +109,46 @@ const GameSidebar = ({ loading, game }) => {
   )
 }
 
+const ExitPrompt = ({ visible, setVisible, team }) => {
+  const history = useHistory()
+
+  if (!visible) return null
+
+  return (
+    <Modal.Modal onClose={() => setVisible(false)}>
+      <Modal.Header isDanger>Are you sure you want to exit?</Modal.Header>
+      <Modal.Body>
+        <Paragraph>
+          You will be able to join again later using the same link.
+        </Paragraph>
+        <Paragraph>
+          <TeamJoinLink team={team} hideLabel />
+        </Paragraph>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button isPrimary isDanger>
+          Exit Game
+        </Button>
+      </Modal.Footer>
+      <Modal.Close aria-label="Close modal" />
+    </Modal.Modal>
+  )
+}
+
 export const Play = ({ code }) => {
   const { loading, data, error } = useQuery(GET_GAME, {
     variables: { code },
   })
-
-  // const { game } = data
-  const { game } = SAMPLE_GAME
+  const [showExitPrompt, setShowExitPrompt] = useState(false)
 
   if (error) {
     console.error(error)
     return <h1>Error: {error.message}</h1>
   }
 
-  // TODO
-  const score = 84
+  // const { game } = data
+  const { game } = SAMPLE_GAME
+  const { currentTeam } = game
 
   return (
     <Chrome>
@@ -130,14 +158,14 @@ export const Play = ({ code }) => {
             <Row style={{ width: '100%', margin: 0 }} alignItems="center">
               <Col size={1}>
                 <StyledScore>
-                  <Span>{`Score: ${score}`}</Span>
+                  <Span>{`Score: ${currentTeam.score}`}</Span>
                 </StyledScore>
               </Col>
               <Col textAlign="center" isStretched>
                 <XXXL>{game?.name}</XXXL>
               </Col>
               <Col textAlign="end" size={1} style={{ padding: 0 }}>
-                <Button isDanger>
+                <Button isDanger onClick={() => setShowExitPrompt(true)}>
                   <Button.StartIcon>
                     <ExitIcon />
                   </Button.StartIcon>
@@ -150,6 +178,11 @@ export const Play = ({ code }) => {
         <Content>
           <Main style={{ padding: 20 }}>
             <GameBody loading={loading} game={game} />
+            <ExitPrompt
+              visible={showExitPrompt}
+              setVisible={setShowExitPrompt}
+              team={currentTeam}
+            />
           </Main>
           <Sidebar style={{ padding: 20 }}>
             <GameSidebar loading={loading} game={game} />

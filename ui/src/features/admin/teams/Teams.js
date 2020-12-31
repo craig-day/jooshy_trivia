@@ -4,8 +4,7 @@ import { Paragraph, Title, Well } from '@zendeskgarden/react-notifications'
 import { Span } from '@zendeskgarden/react-typography'
 import { ReactComponent as TeamIcon } from '@zendeskgarden/svg-icons/src/16/user-group-fill.svg'
 import * as List from '../../../utils/List'
-import { Field, InputGroup, Input, Label } from '@zendeskgarden/react-forms'
-import { Button } from '@zendeskgarden/react-buttons'
+import TeamJoinLink from '../../../components/JoinTeamLink'
 
 const TeamMembers = ({ members }) =>
   members.length < 1 ? (
@@ -18,47 +17,26 @@ const TeamMembers = ({ members }) =>
     </ul>
   )
 
-const TeamChunk = ({ teams, onClickCopy }) => {
-  const teamCols = teams.map((team, i) => {
-    const joinUrl = `${window.location.origin}${team.joinLink}`
-
-    return (
-      <Col key={`team-${team.name}`}>
-        <Well isFloating>
-          <Title>
-            <Span>
-              <Span.StartIcon>
-                <TeamIcon />
-              </Span.StartIcon>
-              {team.name}
-            </Span>
-          </Title>
-          <Paragraph>
-            <TeamMembers members={team.members} />
-          </Paragraph>
-          <br />
-          <Field>
-            <Label>Join Link</Label>
-            <InputGroup isCompact>
-              <Input
-                id={`join-team-${i}`}
-                isCompact
-                value={joinUrl}
-                onChange={() => {}}
-              />
-              <Button
-                size="small"
-                focusInset
-                onClick={() => onClickCopy(`join-team-${i}`)}
-              >
-                Copy
-              </Button>
-            </InputGroup>
-          </Field>
-        </Well>
-      </Col>
-    )
-  })
+const TeamChunk = ({ teams }) => {
+  const teamCols = teams.map((team) => (
+    <Col key={`team-${team.id}`}>
+      <Well isFloating>
+        <Title>
+          <Span>
+            <Span.StartIcon>
+              <TeamIcon />
+            </Span.StartIcon>
+            {team.name}
+          </Span>
+        </Title>
+        <Paragraph>
+          <TeamMembers members={team.members} />
+        </Paragraph>
+        <br />
+        <TeamJoinLink team={team} />
+      </Well>
+    </Col>
+  ))
 
   while (teamCols.length < 3) {
     teamCols.push(<Col key={`team-holder-${teamCols.length}`} />)
@@ -67,29 +45,21 @@ const TeamChunk = ({ teams, onClickCopy }) => {
   return teamCols
 }
 
-const TeamRows = ({ teams, onClickCopy }) =>
+const TeamRows = ({ teams }) =>
   List.chunk(teams, 4).map((teamsChunk, i) => (
     <React.Fragment key={`team-row-${i}`}>
       <Row>
-        <TeamChunk teams={teamsChunk} onClickCopy={onClickCopy} />
+        <TeamChunk teams={teamsChunk} />
       </Row>
       <br />
       <br />
     </React.Fragment>
   ))
 
-export const Teams = ({ game: { teams } }) => {
-  const onClickCopy = (id) => {
-    const copyText = document.querySelector(`#${id}`)
-    copyText.select()
-    document.execCommand('copy')
-  }
-
-  return (
-    <Grid>
-      <TeamRows teams={teams} onClickCopy={onClickCopy} />
-    </Grid>
-  )
-}
+export const Teams = ({ game: { teams } }) => (
+  <Grid>
+    <TeamRows teams={teams} />
+  </Grid>
+)
 
 export default Teams
