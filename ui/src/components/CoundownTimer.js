@@ -25,19 +25,25 @@ const CountdownTimer = ({ millis, onExpire, isMinimal }) => {
   const minutes = Math.floor((remaining / 1000 / 60) % 60)
   const seconds = Math.floor((remaining / 1000) % 60)
 
-  if (seconds < 0) return <Span>00:00:00</Span>
+  if (seconds < 0)
+    return (
+      <Span isMonospace hue="red">
+        00:00:00
+      </Span>
+    )
 
   const timer = [`${seconds > 9 ? seconds : `0${seconds}`}`]
 
   if (!isMinimal || minutes > 0)
     timer.unshift(`${minutes > 9 ? minutes : `0${minutes}`}`)
+
   if (!isMinimal || hours > 0)
     timer.unshift(`${hours > 9 ? hours : `0${hours}`}`)
 
   if (days > 0) {
-    return <Span>{`${days} days, ${timer.join(':')}`}</Span>
+    return <Span isMonospace>{`${days} days, ${timer.join(':')}`}</Span>
   } else {
-    return <Span>{timer.join(':')}</Span>
+    return <Span isMonospace>{timer.join(':')}</Span>
   }
 }
 

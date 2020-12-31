@@ -16,7 +16,7 @@ const TeamJoinLink = ({ team, hideLabel }) => (
         id={`join-team-${team.id}`}
         isCompact
         value={`${window.location.origin}${team.joinLink}`}
-        onChange={() => {}}
+        readOnly
       />
       <Button
         size="small"

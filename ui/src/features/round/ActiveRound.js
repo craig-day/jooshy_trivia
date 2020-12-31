@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Col, Grid, Row } from '@zendeskgarden/react-grid'
-import { Span, XXL, XXXL } from '@zendeskgarden/react-typography'
+import { LG, Span, XXL, XXXL } from '@zendeskgarden/react-typography'
 import { ReactComponent as ClockIcon } from '@zendeskgarden/svg-icons/src/16/clock-stroke.svg'
-import GameLoading from '../../components/GameLoading'
 import CountdownTimer from '../../components/CoundownTimer'
+import Round from './Round'
 
 export const ActiveRound = ({ round }) => {
   const [waitingForStart, setWaitingForStart] = useState(!round.isStarted)
@@ -43,11 +43,13 @@ export const ActiveRound = ({ round }) => {
         </Col>
       </Row>
       <Row>
-        <Col textAlign="center">Loading Questions</Col>
-      </Row>
-      <Row alignItems="center">
         <Col textAlign="center">
-          <GameLoading />
+          <LG>{round.description}</LG>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Round round={round} />
         </Col>
       </Row>
     </Grid>
