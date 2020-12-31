@@ -118,7 +118,7 @@ export const SAMPLE_GAME = {
         description: 'Find the similarity within all of the pictures.',
         questionCount: 8,
         points: 16,
-        isActive: true,
+        isActive: false,
         isStarted: false,
         startsIn: null,
         duration: 720,
@@ -150,11 +150,18 @@ export const SAMPLE_GAME = {
         description: 'Identify the next item in the sequence.',
         questionCount: 20,
         points: 40,
-        isActive: false,
+        isActive: true,
         isStarted: false,
         startsIn: null,
         duration: 720,
-        questions: [],
+        questions: [
+          {
+            items: ['Hello', 'World', 'This'],
+          },
+          {
+            items: ['One', 'One', 'Two'],
+          },
+        ],
       },
       {
         __typename: 'Sequence',

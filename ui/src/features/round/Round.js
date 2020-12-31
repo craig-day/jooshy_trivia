@@ -4,6 +4,7 @@ import MultipleChoice from './MultipleChoice'
 import Music from './Music'
 import PickOne from './PickOne'
 import Image from './Image'
+import Sequence from './Sequence'
 
 const RoundComponent = (props) => {
   switch (props.round?.__typename) {
@@ -15,6 +16,8 @@ const RoundComponent = (props) => {
       return <Music {...props} />
     case 'Image':
       return <Image {...props} />
+    case 'Sequence':
+      return <Sequence {...props} />
     default:
       return null
   }
