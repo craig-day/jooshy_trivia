@@ -8,6 +8,7 @@ import {
   Input,
   InputGroup,
   Radio,
+  Message,
 } from '@zendeskgarden/react-forms'
 import {
   Modal,
@@ -19,7 +20,7 @@ import {
 } from '@zendeskgarden/react-modals'
 import { Button } from '@zendeskgarden/react-buttons'
 
-const DisplayQuestionAnswers = ({ questions, answers }) => (
+const DisplayQuestionAnswers = ({ questions, answers }) =>
   Object.entries(questions).map(([number, question], i) => {
     const allAnswers = Object.entries(answers[i + 1]).map(
       ([letter, answer]) => (
@@ -44,75 +45,74 @@ const DisplayQuestionAnswers = ({ questions, answers }) => (
       </React.Fragment>
     )
   })
-)
 
-const DisplayQuestionAnswersEditForm = ({ questions, answers, setQuestions, setAnswers, setVisibleEdit }) => {
-
+const DisplayQuestionAnswersEditForm = ({
+  questions,
+  answers,
+  setQuestions,
+  setAnswers,
+  setVisibleEdit,
+}) => {
   function editQuestion(number, newQuestion) {
-    const newQuestions = {...questions}
+    const newQuestions = { ...questions }
     newQuestions[number] = newQuestion
     setQuestions(newQuestions)
   }
 
   function editAnswer(number, letter, newAnswer) {
-    const newAnswers = {...answers}
+    const newAnswers = { ...answers }
     newAnswers[number][letter] = newAnswer
     setAnswers(newAnswers)
   }
 
-
-  return (
-    Object.entries(questions).map(([number, question]) => {
-      const allAnswers = Object.entries(answers[number]).map(
-        ([letter, answer]) => (
-          <Row>
-            <Col>
-              <Input 
-                placeholder={answer}
-                value={answer}
-                onChange={(e) => editAnswer(number, letter, e.target.value)} 
-              />
-              <br />
-            </Col>
-          </Row>
-        )
+  return Object.entries(questions).map(([number, question]) => {
+    const allAnswers = Object.entries(answers[number]).map(
+      ([letter, answer]) => (
+        <Row>
+          <Col>
+            <Input
+              placeholder={answer}
+              value={answer}
+              onChange={(e) => editAnswer(number, letter, e.target.value)}
+            />
+            <br />
+          </Col>
+        </Row>
       )
-      return (
-        <React.Fragment>
-          <Row>
-            <Col>
-              <Label>Question: {number}.</Label>
-              <Input 
-                placeholder={question}
-                value={question}
-                onChange={(e) => editQuestion(number, e.target.value)} 
-              />
-              <br />
-              <br />
-            </Col>
-          </Row>
-          {allAnswers}
-          <br />
-          <Row justifyContent="center">
-            <Col sm={5}>
-              <Field>
-                <Button
-                  onClick={() => {
-                    setVisibleEdit(false)
-                  }}
-                >
-                  Submit edits
-                </Button>
-              </Field>
-            </Col>
-          </Row>
-        </React.Fragment>
-
-      )
-    })
-  )
+    )
+    return (
+      <React.Fragment>
+        <Row>
+          <Col>
+            <Label>Question: {number}.</Label>
+            <Input
+              placeholder={question}
+              value={question}
+              onChange={(e) => editQuestion(number, e.target.value)}
+            />
+            <br />
+            <br />
+          </Col>
+        </Row>
+        {allAnswers}
+        <br />
+        <Row justifyContent="center">
+          <Col sm={5}>
+            <Field>
+              <Button
+                onClick={() => {
+                  setVisibleEdit(false)
+                }}
+              >
+                Submit edits
+              </Button>
+            </Field>
+          </Col>
+        </Row>
+      </React.Fragment>
+    )
+  })
 }
-
 
 const NewMultipleChoiceAnswer = ({
   letter,
@@ -188,7 +188,7 @@ const NewMultipleChoiceQuestion = ({ onAddNewQuestion, setVisibleNew }) => {
       <Row justifyContent="center">
         <Col sm={5}>
           <Field>
-            <Label>Answers (click to set solution):</Label>
+            <Label>Answers (click letter to set solution):</Label>
             {Object.entries(choices).map(([letter, value], i) => (
               <NewMultipleChoiceAnswer
                 key={`answer-${i}`}
@@ -233,8 +233,12 @@ const NewMultipleChoiceQuestion = ({ onAddNewQuestion, setVisibleNew }) => {
   )
 }
 
-export const AddMultipleChoiceRound = ( {questions, setQuestions, answers, setAnswers} ) => {
-
+export const AddMultipleChoiceRound = ({
+  questions,
+  setQuestions,
+  answers,
+  setAnswers,
+}) => {
   const [visibleNew, setVisibleNew] = useState(false)
   const [visibleEdit, setVisibleEdit] = useState(false)
 
@@ -256,9 +260,11 @@ export const AddMultipleChoiceRound = ( {questions, setQuestions, answers, setAn
       newQuestionKey = nextCharacter(questionKeys[questionKeys.length - 1])
     }
 
-    newQuestions = { ...questions }
-    newQuestions[newQuestionKey] = question
-    setQuestions(newQuestions)
+    if (question.length > 0) {
+      newQuestions = { ...questions }
+      newQuestions[newQuestionKey] = question
+      setQuestions(newQuestions)
+    }
 
     if (answersKeys.length === 0) {
       newAnswerKey = '1'
@@ -272,14 +278,14 @@ export const AddMultipleChoiceRound = ( {questions, setQuestions, answers, setAn
   }
 
   function editQuestion(questionEdit, questionIndex) {
-  	const newQuestions = { ...questions }
-  	newQuestions[questionIndex] = questionEdit
-  	setQuestions(newQuestions)
+    const newQuestions = { ...questions }
+    newQuestions[questionIndex] = questionEdit
+    setQuestions(newQuestions)
   }
 
   return (
     <React.Fragment>
-			<DisplayQuestionAnswers questions={questions} answers={answers} />
+      <DisplayQuestionAnswers questions={questions} answers={answers} />
       <Button onClick={() => setVisibleNew(true)}>Add new question</Button>
       {visibleNew && (
         <Modal isLarge onClose={() => setVisibleNew(false)}>
@@ -294,15 +300,15 @@ export const AddMultipleChoiceRound = ( {questions, setQuestions, answers, setAn
       <Button onClick={() => setVisibleEdit(true)}>Edit questions</Button>
       {visibleEdit && (
         <Modal isLarge onClose={() => setVisibleEdit(false)}>
-          <DisplayQuestionAnswersEditForm 
-            questions={questions} 
-            answers={answers} 
+          <DisplayQuestionAnswersEditForm
+            questions={questions}
+            answers={answers}
             setQuestions={setQuestions}
             setAnswers={setAnswers}
-            setVisibleEdit={setVisibleEdit}/>
+            setVisibleEdit={setVisibleEdit}
+          />
           <Close aria-label="Close modal" />
         </Modal>
-
       )}
     </React.Fragment>
   )
