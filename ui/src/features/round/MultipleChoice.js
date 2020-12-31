@@ -20,9 +20,13 @@ const Choices = ({ questionNumber, choices }) =>
     </StyledField>
   ))
 
+const StyledPrompt = styled(XL)`
+  margin-bottom: ${(p) => p.theme.space.xs};
+`
+
 const Question = ({ number, prompt, choices }) => (
   <React.Fragment>
-    <XL>{`${number}. ${prompt}`}</XL>
+    <StyledPrompt>{`${number}. ${prompt}`}</StyledPrompt>
     <Choices questionNumber={number} choices={choices} />
   </React.Fragment>
 )

@@ -58,7 +58,7 @@ export const SAMPLE_GAME = {
         description: 'Pick the right answer.',
         questionCount: 20,
         points: 20,
-        isActive: true,
+        isActive: false,
         isStarted: false,
         startsIn: null,
         duration: 720,
@@ -92,11 +92,24 @@ export const SAMPLE_GAME = {
         description: 'Identify the song name and artist.',
         questionCount: 10,
         points: 20,
-        isActive: false,
+        isActive: true,
         isStarted: false,
         startsIn: null,
         duration: 720,
-        questions: [],
+        questions: [
+          {
+            fileSource:
+              'https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3',
+          },
+          {
+            fileSource:
+              'https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3',
+          },
+          {
+            fileSource:
+              'https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3',
+          },
+        ],
       },
       {
         __typename: 'Image',

@@ -1,5 +1,6 @@
 import React from 'react'
 import MultipleChoice from './MultipleChoice'
+import Music from './Music'
 import PickOne from './PickOne'
 
 export const Round = (props) => {
@@ -8,6 +9,8 @@ export const Round = (props) => {
       return <PickOne {...props} />
     case 'MultipleChoice':
       return <MultipleChoice {...props} />
+    case 'Music':
+      return <Music {...props} />
     default:
       return null
   }
