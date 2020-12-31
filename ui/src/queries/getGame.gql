@@ -1,0 +1,7 @@
+query GetGame($code: String!) {
+  game: gameByCode(code: $code) {
+    id
+    code
+    name
+  }
+}

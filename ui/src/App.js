@@ -18,9 +18,10 @@ import { Socket as PhoenixSocket } from 'phoenix'
 import { hasSubscription } from '@jumpn/utils-graphql'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import Landing from './features/landing/Landing'
-import { Join as JoinGame } from './features/game/Join'
 import { Create as CreateGame } from './features/game/Create'
 import { Edit as EditGame } from './features/game/Edit'
+import Lobby from './features/lobby/Lobby'
+import Play from './features/game/Play'
 
 const theme = {
   ...DEFAULT_THEME,
@@ -59,10 +60,13 @@ const App = () => (
         <Switch>
           <Route path="/create" component={CreateGame} />
           <Route
-            path="/join/:code"
-            render={({ match }) => <JoinGame code={match.params.code} />}
+            path="/game/:code/play"
+            render={({ match }) => <Play code={match.params.code} />}
           />
-          <Route path="/join" component={JoinGame} />
+          <Route
+            path="/game/:code/lobby"
+            render={({ match }) => <Lobby code={match.params.code} />}
+          />
           <Route path="/game//manage" render={() => <Redirect to="/" />} />
           <Route
             path="/game/:code/manage"

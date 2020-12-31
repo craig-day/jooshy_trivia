@@ -1,5 +1,6 @@
 export const SAMPLE_GAME = {
   game: {
+    name: '💩🤬',
     registeredPlayerCount: 18,
     startsAt: '2020-12-23T19:00:00-08:00',
     rounds: [
@@ -11,6 +12,9 @@ export const SAMPLE_GAME = {
           'Select the item in the pair better associated with each question.',
         questionCount: 10,
         points: 20,
+        isActive: true,
+        isStarted: false,
+        startsAt: new Date(+new Date() + 30 * 1000).toISOString(), // 3 minutes from now
         categories: [
           {
             title: 'RED or BLUE',
@@ -53,6 +57,9 @@ export const SAMPLE_GAME = {
         description: 'Pick the right answer.',
         questionCount: 20,
         points: 20,
+        isActive: false,
+        isStarted: false,
+        startsIn: null,
         questions: [
           {
             prompt: 'Which string is the most common first program',
@@ -83,6 +90,9 @@ export const SAMPLE_GAME = {
         description: 'Identify the song name and artist.',
         questionCount: 10,
         points: 20,
+        isActive: false,
+        isStarted: false,
+        startsIn: null,
         questions: [],
       },
       {
@@ -92,6 +102,9 @@ export const SAMPLE_GAME = {
         description: 'Find the similarity within all of the pictures.',
         questionCount: 8,
         points: 16,
+        isActive: false,
+        isStarted: false,
+        startsIn: null,
         questions: [],
       },
       {
@@ -101,6 +114,9 @@ export const SAMPLE_GAME = {
         description: 'Identify the next item in the sequence.',
         questionCount: 20,
         points: 40,
+        isActive: false,
+        isStarted: false,
+        startsIn: null,
         questions: [],
       },
       {
@@ -110,6 +126,9 @@ export const SAMPLE_GAME = {
         description: 'Identify the next item in the sequence.',
         questionCount: 10,
         points: 30,
+        isActive: false,
+        isStarted: false,
+        startsIn: null,
         questions: [],
       },
     ],

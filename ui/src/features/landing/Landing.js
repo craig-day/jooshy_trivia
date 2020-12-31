@@ -213,7 +213,7 @@ export const Landing = () => {
       setErrors(validationErrors)
       setMode(Mode.Joining)
     } else {
-      // TODO: join the game
+      history.push(`/game/${code}/lobby`)
     }
   }
 

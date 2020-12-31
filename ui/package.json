@@ -24,6 +24,7 @@
     "@zendeskgarden/react-typography": "^8.28.2",
     "@zendeskgarden/svg-icons": "^6.27.0",
     "graphql": "^15.4.0",
+    "graphql.macro": "^1.4.2",
     "phoenix": "^1.5.7",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",

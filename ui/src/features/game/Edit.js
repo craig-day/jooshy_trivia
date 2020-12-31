@@ -11,8 +11,7 @@ import {
   NavItemIcon,
   NavItemText,
 } from '@zendeskgarden/react-chrome'
-import { MD, XL, XXXL } from '@zendeskgarden/react-typography'
-import { Skeleton } from '@zendeskgarden/react-loaders'
+import { XXXL } from '@zendeskgarden/react-typography'
 import { ReactComponent as HomeIcon } from '@zendeskgarden/svg-icons/src/26/home-fill.svg'
 import { ReactComponent as PlayersIcon } from '@zendeskgarden/svg-icons/src/16/user-list-fill.svg'
 import { ReactComponent as QuestionIcon } from '@zendeskgarden/svg-icons/src/16/list-bullet-fill.svg'
@@ -21,6 +20,7 @@ import { gql, useQuery } from '@apollo/client'
 import { Col, Row } from '@zendeskgarden/react-grid'
 import { Route, Switch, useHistory, useRouteMatch } from 'react-router-dom'
 import { Button } from '@zendeskgarden/react-buttons'
+import GameLoading from '../../components/GameLoading'
 import Summary from '../admin/summary/Summary'
 import Teams from '../admin/teams/Teams'
 import Rounds from '../admin/rounds/Rounds'
@@ -28,7 +28,7 @@ import { SAMPLE_GAME } from '../admin/fakeData'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
-    gameByCode(code: $code) {
+    game: gameByCode(code: $code) {
       id
       code
       name
@@ -47,28 +47,8 @@ const GET_GAME = gql`
   }
 `
 
-const ContentLoading = () => (
-  <Row>
-    <Col sm={5}>
-      <XXXL>
-        <Skeleton />
-      </XXXL>
-      <XL>
-        <Skeleton />
-      </XL>
-      <MD>
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-        <Skeleton />
-      </MD>
-    </Col>
-  </Row>
-)
-
 const MainContent = ({ loading, url, game }) => {
-  if (loading) return <ContentLoading />
+  if (loading) return <GameLoading />
 
   return (
     <Switch>
@@ -161,7 +141,7 @@ export const Edit = ({ code }) => {
             <Row style={{ width: '100%', margin: 0 }} alignItems="center">
               <Col size={1}></Col>
               <Col textAlign="center" isStretched>
-                <XXXL>{data?.gameByCode?.name}</XXXL>
+                <XXXL>{data?.game?.name}</XXXL>
               </Col>
               <Col textAlign="end" size={1} style={{ padding: 0 }}>
                 <Button onClick={onClickExit}>
