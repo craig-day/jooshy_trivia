@@ -11,11 +11,13 @@ import {
 } from '@zendeskgarden/react-chrome'
 import { Col, Row } from '@zendeskgarden/react-grid'
 import { Span, LG, XXL, XXXL } from '@zendeskgarden/react-typography'
-import GameLoading from '../../components/GameLoading'
-import { SAMPLE_GAME } from '../admin/fakeData'
+import { Button } from '@zendeskgarden/react-buttons'
+import { ReactComponent as ExitIcon } from '@zendeskgarden/svg-icons/src/16/exit-fill.svg'
 import styled from 'styled-components'
+import GameLoading from '../../components/GameLoading'
 import RoundTypeIcon from '../../components/RoundTypeIcon'
 import ActiveRound from '../round/ActiveRound'
+import { SAMPLE_GAME } from '../admin/fakeData'
 
 const GET_GAME = gql`
   query GetGame($code: String!) {
@@ -71,6 +73,12 @@ const StyledRoundName = styled.span`
   }
 `
 
+const StyledScore = styled.div`
+  color: ${(p) => p.theme.palette.kale['700']};
+  font-size: ${(p) => p.theme.fontSizes.xl};
+  font-weight: ${(p) => p.theme.fontWeights.semibold};
+`
+
 const RoundName = ({ round }) => (
   <StyledRoundName isActive={round.isActive}>
     <LG>
@@ -111,17 +119,31 @@ export const Play = ({ code }) => {
     return <h1>Error: {error.message}</h1>
   }
 
+  // TODO
+  const score = 84
+
   return (
     <Chrome>
       <Body>
         <Header>
           <HeaderItemWrapper maxX maxY>
             <Row style={{ width: '100%', margin: 0 }} alignItems="center">
-              <Col size={1}></Col>
+              <Col size={1}>
+                <StyledScore>
+                  <Span>{`Score: ${score}`}</Span>
+                </StyledScore>
+              </Col>
               <Col textAlign="center" isStretched>
                 <XXXL>{game?.name}</XXXL>
               </Col>
-              <Col textAlign="end" size={1} style={{ padding: 0 }}></Col>
+              <Col textAlign="end" size={1} style={{ padding: 0 }}>
+                <Button isDanger>
+                  <Button.StartIcon>
+                    <ExitIcon />
+                  </Button.StartIcon>
+                  Exit
+                </Button>
+              </Col>
             </Row>
           </HeaderItemWrapper>
         </Header>

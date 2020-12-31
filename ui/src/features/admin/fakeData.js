@@ -14,7 +14,8 @@ export const SAMPLE_GAME = {
         points: 20,
         isActive: true,
         isStarted: false,
-        startsAt: new Date(+new Date() + 30 * 1000).toISOString(), // 3 minutes from now
+        startsAt: new Date(+new Date() + 3 * 1000).toISOString(), // 3 minutes from now
+        duration: 720,
         categories: [
           {
             title: 'RED or BLUE',
@@ -60,6 +61,7 @@ export const SAMPLE_GAME = {
         isActive: false,
         isStarted: false,
         startsIn: null,
+        duration: 720,
         questions: [
           {
             prompt: 'Which string is the most common first program',
@@ -93,6 +95,7 @@ export const SAMPLE_GAME = {
         isActive: false,
         isStarted: false,
         startsIn: null,
+        duration: 720,
         questions: [],
       },
       {
@@ -105,6 +108,7 @@ export const SAMPLE_GAME = {
         isActive: false,
         isStarted: false,
         startsIn: null,
+        duration: 720,
         questions: [],
       },
       {
@@ -117,6 +121,7 @@ export const SAMPLE_GAME = {
         isActive: false,
         isStarted: false,
         startsIn: null,
+        duration: 720,
         questions: [],
       },
       {
@@ -129,6 +134,7 @@ export const SAMPLE_GAME = {
         isActive: false,
         isStarted: false,
         startsIn: null,
+        duration: 720,
         questions: [],
       },
     ],
