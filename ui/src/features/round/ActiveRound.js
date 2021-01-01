@@ -26,12 +26,12 @@ export const ActiveRound = ({ round }) => {
   return (
     <Grid>
       <Row>
-        <Col textAlign="center">
+        <Col>
           <XXXL tag="span">{round.name}</XXXL>
         </Col>
       </Row>
       <Row>
-        <Col textAlign="center">
+        <Col>
           <XXL tag="span">
             <Span>
               <Span.StartIcon>
@@ -43,7 +43,7 @@ export const ActiveRound = ({ round }) => {
         </Col>
       </Row>
       <Row>
-        <Col textAlign="center">
+        <Col>
           <LG>{round.description}</LG>
         </Col>
       </Row>

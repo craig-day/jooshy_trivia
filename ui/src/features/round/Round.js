@@ -25,8 +25,8 @@ const RoundComponent = (props) => {
 
 export const Round = (props) => (
   <Grid>
-    <Row justifyContent="center">
-      <Col xl={8} lg={12}>
+    <Row>
+      <Col xl={9} lg={12}>
         <RoundComponent {...props} />
       </Col>
     </Row>

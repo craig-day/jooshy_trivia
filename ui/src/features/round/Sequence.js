@@ -1,62 +1,51 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Field, Input, Label } from '@zendeskgarden/react-forms'
-import { Row, Col } from '@zendeskgarden/react-grid'
-import { XL } from '@zendeskgarden/react-typography'
-import QuestionContainer from './QuestionContainer'
+import { Field, Input } from '@zendeskgarden/react-forms'
+import { LG, XL } from '@zendeskgarden/react-typography'
+import * as Table from '@zendeskgarden/react-tables'
 
-const StyledQuestionContainer = styled(QuestionContainer)`
-  margin: 0;
-  padding-top: ${(p) => p.theme.space.md};
-  padding-bottom: ${(p) => p.theme.space.md};
-  border-bottom: ${(p) =>
-    `${p.theme.borders.sm} ${p.theme.palette.grey['300']}`};
-
-  &:last-of-type {
-    border: none;
-  }
-`
-
-const StyledCol = styled(Col)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-right: ${(p) =>
-    `${p.theme.borders.sm} ${p.theme.palette.grey['200']}`};
-
-  &:last-of-type {
-    border: none;
-  }
-`
-
-const SequenceColumns = ({ questionNumber, items }) =>
+const Cells = ({ questionNumber, items }) =>
   items.map((item, i) => (
-    <StyledCol key={`item-${questionNumber}-${i}`}>
-      <XL tag="span">{item}</XL>
-    </StyledCol>
+    <Table.Cell key={`item-${questionNumber}-${i}`}>{item}</Table.Cell>
   ))
 
-const AnswerColumn = () => (
-  <StyledCol>
-    <Field>
-      <Label>Next Item</Label>
-      <Input />
-    </Field>
-  </StyledCol>
-)
-
-const Question = ({ number, question }) => (
-  <Row>
-    <SequenceColumns questionNumber={number} items={question.items} />
-    <AnswerColumn />
-  </Row>
-)
-
-const Sequence = ({ round }) =>
-  round.questions.map((question, i) => (
-    <StyledQuestionContainer key={`question-${i}`}>
-      <Question number={i + 1} question={question} />
-    </StyledQuestionContainer>
+const Rows = ({ questions }) =>
+  questions.map((question, i) => (
+    <Table.Row isStriped={i % 2 === 1}>
+      <Table.Cell isMinimum>
+        <LG>{`${i + 1}.`}</LG>
+      </Table.Cell>
+      <Cells questionNumber={i + 1} items={question.items} />
+      <Table.Cell>
+        <Field>
+          <Input placeholder="Next..." isCompact autoComplete="off" />
+        </Field>
+      </Table.Cell>
+    </Table.Row>
   ))
+
+const Sequence = ({ round }) => (
+  <Table.Table>
+    <Table.Head>
+      <Table.HeaderRow>
+        <Table.HeaderCell isMinimum></Table.HeaderCell>
+        <Table.HeaderCell>
+          <XL>A</XL>
+        </Table.HeaderCell>
+        <Table.HeaderCell>
+          <XL>B</XL>
+        </Table.HeaderCell>
+        <Table.HeaderCell>
+          <XL>C</XL>
+        </Table.HeaderCell>
+        <Table.HeaderCell width="35%">
+          <XL>?</XL>
+        </Table.HeaderCell>
+      </Table.HeaderRow>
+    </Table.Head>
+    <Table.Body>
+      <Rows questions={round.questions} />
+    </Table.Body>
+  </Table.Table>
+)
 
 export default Sequence
