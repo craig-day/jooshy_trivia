@@ -4,13 +4,18 @@ import { LG, Span, XXL, XXXL } from '@zendeskgarden/react-typography'
 import { ReactComponent as ClockIcon } from '@zendeskgarden/svg-icons/src/16/clock-stroke.svg'
 import CountdownTimer from '../../components/CoundownTimer'
 import Round from './Round'
+import { ROUND_STATE } from '../admin/fakeData'
 
 export const ActiveRound = ({ round }) => {
-  const [waitingForStart, setWaitingForStart] = useState(!round.isStarted)
+  const [waitingForStart, setWaitingForStart] = useState(
+    round?.state === ROUND_STATE.NOT_STARTED
+  )
 
-  const roundStart = new Date(round.startsAt)
+  const roundStart = new Date(round?.startsAt)
   const now = new Date()
   const timerDuration = roundStart > now ? roundStart - now : 0
+
+  if (!round) return null
 
   if (waitingForStart) {
     return (

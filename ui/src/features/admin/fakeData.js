@@ -1,3 +1,9 @@
+export const ROUND_STATE = {
+  NOT_STARTED: 'NOT_STARTED',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+}
+
 export const SAMPLE_GAME = {
   game: {
     name: '💩🤬',
@@ -12,8 +18,7 @@ export const SAMPLE_GAME = {
           'Select the item in the pair better associated with each question.',
         questionCount: 10,
         points: 20,
-        isActive: false,
-        isStarted: false,
+        state: ROUND_STATE.COMPLETED,
         startsAt: new Date(+new Date() + 3 * 1000).toISOString(), // 3 minutes from now
         duration: 720,
         categories: [
@@ -58,8 +63,7 @@ export const SAMPLE_GAME = {
         description: 'Pick the right answer.',
         questionCount: 20,
         points: 20,
-        isActive: false,
-        isStarted: false,
+        state: ROUND_STATE.COMPLETED,
         startsIn: null,
         duration: 720,
         questions: [
@@ -92,8 +96,7 @@ export const SAMPLE_GAME = {
         description: 'Identify the song name and artist.',
         questionCount: 10,
         points: 20,
-        isActive: false,
-        isStarted: false,
+        state: ROUND_STATE.COMPLETED,
         startsIn: null,
         duration: 720,
         questions: [
@@ -118,8 +121,7 @@ export const SAMPLE_GAME = {
         description: 'Find the similarity within all of the pictures.',
         questionCount: 8,
         points: 16,
-        isActive: false,
-        isStarted: false,
+        state: ROUND_STATE.ACTIVE,
         startsIn: null,
         duration: 720,
         questions: [
@@ -150,8 +152,7 @@ export const SAMPLE_GAME = {
         description: 'Identify the next item in the sequence.',
         questionCount: 20,
         points: 40,
-        isActive: true,
-        isStarted: false,
+        state: ROUND_STATE.NOT_STARTED,
         startsIn: null,
         duration: 720,
         questions: [
@@ -170,8 +171,7 @@ export const SAMPLE_GAME = {
         description: 'Identify the next item in the sequence.',
         questionCount: 10,
         points: 30,
-        isActive: false,
-        isStarted: false,
+        state: ROUND_STATE.NOT_STARTED,
         startsIn: null,
         duration: 720,
         questions: [],
