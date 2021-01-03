@@ -37,23 +37,11 @@ const GET_GAME = gql`
 const GameBody = ({ loading, game, routeMatch }) => {
   if (loading) return <GameLoading />
 
-  const activeRound =
-    game.rounds.find((round) => round.state === ROUND_STATE.ACTIVE) ||
-    game.rounds[0]
+  const activeRound = routeMatch?.params?.number
+    ? game.rounds.find((r) => +r.number === +routeMatch?.params?.number)
+    : game.rounds.find((r) => r.state === ROUND_STATE.ACTIVE) || game.rounds[0]
 
-  return (
-    <Switch>
-      <Route
-        path={`${routeMatch.path}/round/:number`}
-        render={({ match }) => (
-          <ActiveRound
-            round={game.rounds.find((r) => +r.number === +match.params.number)}
-          />
-        )}
-      />
-      <Route path="*" render={() => <ActiveRound round={activeRound} />} />
-    </Switch>
-  )
+  return <ActiveRound round={activeRound} />
 }
 
 const StyledRoundRow = styled(Row)`
@@ -65,6 +53,12 @@ const StyledRoundRow = styled(Row)`
   border-color: ${(p) =>
     p.isActive ? p.theme.palette.blue['600'] : 'transparent'};
   border-radius: ${(p) => p.theme.borderRadii.md};
+  border-color: ${(p) =>
+    p.isSelected
+      ? p.isActive
+        ? p.theme.palette.blue['600']
+        : p.theme.palette.grey['400']
+      : 'transparent'};
 
   ${(p) =>
     p.isActive
@@ -108,7 +102,7 @@ const StyledRoundCol = styled(Col)`
   padding-right: 0;
 `
 
-const RoundStatusIcon = ({ score, state }) => {
+const RoundStatusIcon = ({ state, score }) => {
   switch (state) {
     case ROUND_STATE.NOT_STARTED:
       return (
@@ -129,10 +123,11 @@ const RoundStatusIcon = ({ score, state }) => {
   }
 }
 
-const RoundName = ({ round, onClick }) => (
+const RoundName = ({ round, isActive, isSelected, onClick }) => (
   <StyledRoundRow
     isCompleted={round.state === ROUND_STATE.COMPLETED}
-    isActive={round.state === ROUND_STATE.ACTIVE}
+    isActive={isActive}
+    isSelected={isSelected}
     onClick={() => round.state !== ROUND_STATE.NOT_STARTED && onClick()}
   >
     <StyledRoundCol size={1}>
@@ -147,7 +142,7 @@ const RoundName = ({ round, onClick }) => (
       <LG>{round.name}</LG>
     </StyledRoundCol>
     <StyledRoundCol size={1}>
-      <RoundStatusIcon state={round.state} />
+      <RoundStatusIcon state={round.state} score={round.score} />
     </StyledRoundCol>
   </StyledRoundRow>
 )
@@ -156,7 +151,18 @@ const GameSidebar = ({ loading, game, history, routeMatch }) => {
   if (loading) return null
 
   const onClickRound = (number) => () => {
-    history.push(`${routeMatch.url}/round/${number}`)
+    const {
+      path,
+      url,
+      params: { code },
+    } = routeMatch
+
+    const urlTo =
+      path === '*'
+        ? `${url}/round/${number}`
+        : path.replace(':code', code).replace(':number', number)
+
+    history.push(urlTo)
   }
 
   return (
@@ -166,6 +172,8 @@ const GameSidebar = ({ loading, game, history, routeMatch }) => {
         <RoundName
           key={`round-${i}`}
           round={round}
+          isActive={round.state === ROUND_STATE.ACTIVE}
+          isSelected={+round.number === +routeMatch.params.number}
           onClick={onClickRound(round.number)}
         />
       ))}
@@ -202,18 +210,16 @@ const StyledScore = styled.div`
   font-weight: ${(p) => p.theme.fontWeights.semibold};
 `
 
-export const Play = ({ code }) => {
-  const { loading, data, error } = useQuery(GET_GAME, {
+const PlayGame = ({ code }) => {
+  const { loading, error } = useQuery(GET_GAME, {
     variables: { code },
   })
-  const [showExitPrompt, setShowExitPrompt] = useState(false)
-  const history = useHistory()
-  const routeMatch = useRouteMatch()
 
-  if (error) {
-    console.error(error)
-    return <h1>Error: {error.message}</h1>
-  }
+  const routeMatch = useRouteMatch()
+  const history = useHistory()
+  const [showExitPrompt, setShowExitPrompt] = useState(false)
+
+  if (error) return <h1>Error: {error.message}</h1>
 
   // const { game } = data
   const { game } = SAMPLE_GAME
@@ -227,7 +233,7 @@ export const Play = ({ code }) => {
             <Row style={{ width: '100%', margin: 0 }} alignItems="center">
               <Col size={1}>
                 <StyledScore>
-                  <Span>{`Score: ${currentTeam.score}`}</Span>
+                  <Span>{`Score: ${currentTeam?.score}`}</Span>
                 </StyledScore>
               </Col>
               <Col textAlign="center" isStretched>
@@ -265,6 +271,20 @@ export const Play = ({ code }) => {
         </Content>
       </Body>
     </Chrome>
+  )
+}
+
+export const Play = ({ code }) => {
+  const routeMatch = useRouteMatch()
+
+  return (
+    <Switch>
+      <Route
+        path={`${routeMatch.path}/round/:number`}
+        render={({ match }) => <PlayGame code={code} />}
+      />
+      <Route path="*" render={() => <PlayGame code={code} />} />
+    </Switch>
   )
 }
 
