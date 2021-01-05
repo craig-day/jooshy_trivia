@@ -8,7 +8,7 @@ const onClickCopy = (id) => {
   document.execCommand('copy')
 }
 
-const TeamJoinLink = ({ team, hideLabel }) => (
+const JoinTeamLink = ({ team, hideLabel }) => (
   <Field>
     {!hideLabel && <Label>Join Link</Label>}
     <InputGroup isCompact>
@@ -29,4 +29,4 @@ const TeamJoinLink = ({ team, hideLabel }) => (
   </Field>
 )
 
-export default TeamJoinLink
+export default JoinTeamLink

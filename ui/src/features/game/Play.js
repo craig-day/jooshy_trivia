@@ -21,7 +21,7 @@ import GameLoading from '../../components/GameLoading'
 import RoundTypeIcon from '../../components/RoundTypeIcon'
 import ActiveRound from '../round/ActiveRound'
 import { ROUND_STATE, SAMPLE_GAME } from '../admin/fakeData'
-import TeamJoinLink from '../../components/JoinTeamLink'
+import JoinTeamLink from '../../components/JoinTeamLink'
 import { Spinner } from '@zendeskgarden/react-loaders'
 
 const GET_GAME = gql`
@@ -192,7 +192,7 @@ const ExitPrompt = ({ visible, setVisible, team, history }) => {
           You will be able to join again later using the same link.
         </Paragraph>
         <br />
-        <TeamJoinLink team={team} hideLabel />
+        <JoinTeamLink team={team} hideLabel />
       </Modal.Body>
       <Modal.Footer>
         <Button isPrimary isDanger onClick={() => history.push('/')}>

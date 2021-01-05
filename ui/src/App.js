@@ -17,6 +17,7 @@ import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link'
 import { Socket as PhoenixSocket } from 'phoenix'
 import { hasSubscription } from '@jumpn/utils-graphql'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
+import { ROUTES, routeTo } from './routes'
 import Landing from './features/landing/Landing'
 import { Create as CreateGame } from './features/game/Create'
 import { Edit as EditGame } from './features/game/Edit'
@@ -58,20 +59,23 @@ const App = () => (
     <ApolloProvider client={apolloClient}>
       <Router>
         <Switch>
-          <Route path="/create" component={CreateGame} />
           <Route
-            path="/game/:code/play"
+            path={ROUTES.game_play}
             render={({ match }) => <Play code={match.params.code} />}
           />
           <Route
-            path="/game/:code/lobby"
+            path={ROUTES.game_lobby}
             render={({ match }) => <Lobby code={match.params.code} />}
           />
-          <Route path="/game//manage" render={() => <Redirect to="/" />} />
           <Route
-            path="/game/:code/manage"
+            path={routeTo(ROUTES.game_manage, { code: '' })}
+            render={() => <Redirect to="/" />}
+          />
+          <Route
+            path={ROUTES.game_manage}
             render={({ match }) => <EditGame code={match.params.code} />}
           />
+          <Route path={ROUTES.game_create} component={CreateGame} />
           <Route path="/" component={Landing} />
         </Switch>
       </Router>
