@@ -19,10 +19,11 @@ import { hasSubscription } from '@jumpn/utils-graphql'
 import { DEFAULT_THEME, ThemeProvider } from '@zendeskgarden/react-theming'
 import { ROUTES, routeTo } from './routes'
 import Landing from './features/landing/Landing'
-import { Create as CreateGame } from './features/game/Create'
-import { Edit as EditGame } from './features/game/Edit'
+import Create from './features/game/Create'
+import Edit from './features/game/Edit'
 import Lobby from './features/lobby/Lobby'
 import Play from './features/game/Play'
+import Join from './features/game/Join'
 
 const theme = {
   ...DEFAULT_THEME,
@@ -60,6 +61,10 @@ const App = () => (
       <Router>
         <Switch>
           <Route
+            path={ROUTES.game_join}
+            render={({ match }) => <Join code={match.params.code} />}
+          />
+          <Route
             path={ROUTES.game_play}
             render={({ match }) => <Play code={match.params.code} />}
           />
@@ -73,9 +78,9 @@ const App = () => (
           />
           <Route
             path={ROUTES.game_manage}
-            render={({ match }) => <EditGame code={match.params.code} />}
+            render={({ match }) => <Edit code={match.params.code} />}
           />
-          <Route path={ROUTES.game_create} component={CreateGame} />
+          <Route path={ROUTES.game_create} component={Create} />
           <Route path="/" component={Landing} />
         </Switch>
       </Router>

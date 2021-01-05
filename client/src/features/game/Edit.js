@@ -163,3 +163,5 @@ export const Edit = ({ code }) => {
     </Chrome>
   )
 }
+
+export default Edit

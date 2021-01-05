@@ -3,7 +3,7 @@
 ## Development
 
 The project is setup to use [`asdf-vm`](https://asdf-vm.com/#/) to manage the tool versions. You can
-use any runtime version manager you like, but make sure you check [`.tool-versions`](./tool-versions)
+use any runtime version manager you like, but make sure you check [`.tool-versions`](./.tool-versions)
 to ensure you install the correct version.
 
 ### Client
